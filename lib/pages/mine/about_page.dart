@@ -27,20 +27,19 @@ class AboutPage extends StatelessWidget {
             SizedBox(height: 16.h),
 
             // 应用名称
-            Text(
+            AppText(
               AppInfoService.to.appName,
-              style: TextStyle(
-                fontSize: 24.sp,
-                fontWeight: AppFontWeights.bold,
-                color: AppColors.textPrimary,
-              ),
+              fontSize: 24.sp,
+              fontWeight: AppFontWeights.bold,
+              color: AppColors.textPrimary,
             ),
 
             SizedBox(height: 8.h),
 
-            Text(
+            AppText(
               AppInfoService.to.displayVersion,
-              style: TextStyle(fontSize: 14.sp, color: Colors.grey[600]),
+              fontSize: 14.sp,
+              color: AppColors.textSecondary,
             ),
 
             SizedBox(height: 40.h),
@@ -63,22 +62,18 @@ class AboutPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  AppText(
                     '应用介绍',
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: AppFontWeights.semiBold,
-                      color: AppColors.textPrimary,
-                    ),
+                    fontSize: 18.sp,
+                    fontWeight: AppFontWeights.semiBold,
+                    color: AppColors.textPrimary,
                   ),
                   SizedBox(height: 12.h),
-                  Text(
+                  AppText(
                     '这是一款优秀的移动应用，致力于为用户提供便捷、高效的服务体验。我们持续优化产品功能，不断提升用户满意度。',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: Colors.grey[700],
-                      height: 1.8,
-                    ),
+                    fontSize: 14.sp,
+                    color: AppColors.textPrimary,
+                    height: 1.8,
                   ),
                 ],
               ),
@@ -104,13 +99,11 @@ class AboutPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  AppText(
                     '联系我们',
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: AppFontWeights.semiBold,
-                      color: AppColors.textPrimary,
-                    ),
+                    fontSize: 18.sp,
+                    fontWeight: AppFontWeights.semiBold,
+                    color: AppColors.textPrimary,
                   ),
                   SizedBox(height: 12.h),
                   _buildContactItem(Icons.email, '邮箱', 'contact@example.com'),
@@ -127,10 +120,11 @@ class AboutPage extends StatelessWidget {
             // 版权信息
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Text(
+              child: AppText(
                 '© 2024 Your Company. All rights reserved.',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 12.sp, color: Colors.grey[500]),
+                fontSize: 12.sp,
+                color: AppColors.textSecondary,
               ),
             ),
 
@@ -144,16 +138,18 @@ class AboutPage extends StatelessWidget {
   Widget _buildContactItem(IconData icon, String label, String value) {
     return Row(
       children: [
-        Icon(icon, size: 18.w, color: Colors.grey[600]),
+        Icon(icon, size: 18.w, color: AppColors.textSecondary),
         SizedBox(width: 8.w),
-        Text(
+        AppText(
           '$label：',
-          style: TextStyle(fontSize: 14.sp, color: Colors.grey[600]),
+          fontSize: 14.sp,
+          color: AppColors.textSecondary,
         ),
         Expanded(
-          child: Text(
+          child: AppText(
             value,
-            style: TextStyle(fontSize: 14.sp, color: AppColors.textPrimary),
+            fontSize: 14.sp,
+            color: AppColors.textPrimary,
           ),
         ),
       ],

@@ -1,6 +1,7 @@
 // lib/pages/profile/profile_page.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../core/constants/app_constants.dart';
 import '../../routes/navigation_service.dart';
 import '../../services/app_info_service.dart';
@@ -15,7 +16,7 @@ class MinePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: AppColors.background,
       body: CustomScrollView(
         slivers: [
           // 顶部用户信息卡片
@@ -86,9 +87,10 @@ class MinePage extends StatelessWidget {
 
                 // 版本号
                 Center(
-                  child: Text(
+                  child: AppText(
                     AppInfoService.to.displayVersion,
-                    style: TextStyle(fontSize: 12.sp, color: Colors.grey[400]),
+                    fontSize: 12.sp,
+                    color: AppColors.textHint,
                   ),
                 ),
 
@@ -132,21 +134,17 @@ class MinePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                AppText(
                   '用户名',
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                    fontWeight: AppFontWeights.bold,
-                    color: Colors.white,
-                  ),
+                  fontSize: 20.sp,
+                  fontWeight: AppFontWeights.bold,
+                  color: AppColors.textWhite,
                 ),
                 SizedBox(height: 4.h),
-                Text(
+                AppText(
                   'ID: 123456789',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    color: Colors.white.withValues(alpha: 0.8),
-                  ),
+                  fontSize: 14.sp,
+                  color: AppColors.textWhite.withValues(alpha: 0.8),
                 ),
               ],
             ),
@@ -165,13 +163,11 @@ class MinePage extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(left: 4.w, bottom: 8.h),
-          child: Text(
+          child: AppText(
             title,
-            style: TextStyle(
-              fontSize: 14.sp,
-              fontWeight: AppFontWeights.medium,
-              color: Colors.grey[600],
-            ),
+            fontSize: 14.sp,
+            fontWeight: AppFontWeights.medium,
+            color: AppColors.textSecondary,
           ),
         ),
         Container(
@@ -229,22 +225,18 @@ class MinePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  AppText(
                     title,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: AppFontWeights.medium,
-                      color: AppColors.textPrimary,
-                    ),
+                    fontSize: 16.sp,
+                    fontWeight: AppFontWeights.medium,
+                    color: AppColors.textPrimary,
                   ),
                   if (subtitle != null) ...[
                     SizedBox(height: 2.h),
-                    Text(
+                    AppText(
                       subtitle,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: Colors.grey[500],
-                      ),
+                      fontSize: 12.sp,
+                      color: AppColors.textSecondary,
                     ),
                   ],
                 ],
@@ -255,7 +247,7 @@ class MinePage extends StatelessWidget {
             if (trailing != null)
               trailing
             else
-              Icon(Icons.chevron_right, size: 20.w, color: Colors.grey[400]),
+              Icon(Icons.chevron_right, size: 20.w, color: AppColors.textHint),
           ],
         ),
       ),
@@ -275,27 +267,24 @@ class PrivacyPolicyPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            AppText(
               '隐私政策',
-              style: TextStyle(
-                fontSize: 24.sp,
-                fontWeight: AppFontWeights.bold,
-                color: AppColors.textPrimary,
-              ),
+              fontSize: 24.sp,
+              fontWeight: AppFontWeights.bold,
+              color: AppColors.textPrimary,
             ),
             SizedBox(height: 12.h),
-            Text(
+            AppText(
               '更新日期：2024年1月1日',
-              style: TextStyle(fontSize: 14.sp, color: Colors.grey[600]),
+              fontSize: 14.sp,
+              color: AppColors.textSecondary,
             ),
             SizedBox(height: 20.h),
-            Text(
+            AppText(
               '我们非常重视您的隐私保护...',
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: Colors.grey[700],
-                height: 1.8,
-              ),
+              fontSize: 14.sp,
+              color: AppColors.textPrimary,
+              height: 1.8,
             ),
           ],
         ),
