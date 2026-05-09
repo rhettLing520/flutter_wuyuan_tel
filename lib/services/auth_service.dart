@@ -1,35 +1,32 @@
-// lib/services/auth_service.dart
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import '../../core/network/api_client.dart';
-import '../../core/network/api_endpoints.dart';
-import '../../data/models/user_model.dart';
-import '../../services/storage_service.dart';
-import 'login_request.dart';
+
+import '../core/network/api_client.dart';
+import '../core/network/api_endpoints.dart';
+import '../data/models/auth_models.dart';
+import '../data/models/user_model.dart';
+import 'storage_service.dart';
 
 class AuthService extends GetxService {
   final StorageService _storage = Get.find<StorageService>();
 
   static AuthService get to => Get.find<AuthService>();
 
-  /// 登录
   Future<LoginResponse> login(LoginRequest request) async {
-    final response = await ApiClient.post<LoginResponse>(
+    final response = await ApiClient.post<Map<String, dynamic>>(
       ApiEndpoints.login,
       data: request.toJson(),
     );
 
     if (response.success && response.data != null) {
-      final loginData = response.data!;
+      final loginData = LoginResponse.fromJson(response.data!);
 
-      // 保存 token
       await _storage.saveToken(loginData.token);
       if (loginData.refreshToken != null) {
         await _storage.saveRefreshToken(loginData.refreshToken!);
       }
       await _storage.setLoggedIn(true);
 
-      // 设置 ApiClient 的 token
       ApiClient.setToken(loginData.token);
 
       return loginData;
@@ -38,7 +35,6 @@ class AuthService extends GetxService {
     }
   }
 
-  /// 注册
   Future<void> register(RegisterRequest request) async {
     final response = await ApiClient.post(
       ApiEndpoints.register,
@@ -50,14 +46,12 @@ class AuthService extends GetxService {
     }
   }
 
-  /// 登出
   Future<void> logout() async {
     try {
       await ApiClient.post(ApiEndpoints.logout);
     } catch (e) {
       debugPrint('登出请求失败: $e');
     } finally {
-      // 清除本地数据
       await _storage.removeToken();
       await _storage.removeRefreshToken();
       await _storage.setLoggedIn(false);
@@ -65,7 +59,6 @@ class AuthService extends GetxService {
     }
   }
 
-  /// 获取当前用户信息
   Future<UserModel?> getCurrentUser() async {
     final response = await ApiClient.get<Map<String, dynamic>>(
       ApiEndpoints.userInfo,
@@ -77,13 +70,11 @@ class AuthService extends GetxService {
     return null;
   }
 
-  /// 检查是否已登录
   bool isAuthenticated() {
     final token = _storage.getToken();
     return token != null && token.isNotEmpty;
   }
 
-  /// 获取当前 token
   String? getToken() {
     return _storage.getToken();
   }

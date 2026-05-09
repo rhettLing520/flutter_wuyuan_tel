@@ -43,6 +43,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   flutter_native_splash: ^2.4.7
   flutter_inappwebview: ^6.1.5
+  package_info_plus: ^4.2.0
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,4 @@
-// lib/data/models/auth_models.dart
-
-import '../../data/models/user_model.dart';
+import 'user_model.dart';
 
 class LoginRequest {
   final String username;

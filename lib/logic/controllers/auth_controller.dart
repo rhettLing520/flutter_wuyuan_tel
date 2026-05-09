@@ -1,9 +1,9 @@
 // lib/logic/controllers/auth_controller.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../pages/home/home_page.dart';
-import '../../pages/login/auth_service.dart';
-import '../../pages/login/login_request.dart';
+import '../../data/models/auth_models.dart';
+import '../../routes/app_routes.dart';
+import '../../services/auth_service.dart';
 
 class AuthController extends GetxController {
   static AuthController get to => Get.find<AuthController>();
@@ -55,7 +55,7 @@ class AuthController extends GetxController {
       final response = await _authService.login(request);
 
       // 登录成功，跳转到首页
-      Get.offAll(() => const HomePage());
+      Get.offAllNamed(AppRoutes.home);
 
       Get.snackbar(
         '登录成功',

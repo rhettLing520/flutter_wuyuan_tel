@@ -1,9 +1,25 @@
 enum Environment { dev, staging, prod }
 
 class EnvironmentConfig {
-  static Environment current = Environment.dev;
+  static const String _environmentName = String.fromEnvironment(
+    'APP_ENV',
+    defaultValue: 'dev',
+  );
+
+  static const String _definedBaseUrl = String.fromEnvironment('API_BASE_URL');
+
+  static Environment get current {
+    return Environment.values.firstWhere(
+      (environment) => environment.name == _environmentName,
+      orElse: () => Environment.dev,
+    );
+  }
 
   static String get baseUrl {
+    if (_definedBaseUrl.isNotEmpty) {
+      return _definedBaseUrl;
+    }
+
     switch (current) {
       case Environment.dev:
         return 'http://localhost:8080/api';

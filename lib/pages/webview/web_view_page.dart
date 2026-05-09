@@ -8,8 +8,7 @@ class WebViewPage extends StatefulWidget {
   final String url;
   final String? title;
 
-  const WebViewPage({Key? key, required this.url, this.title})
-    : super(key: key);
+  const WebViewPage({super.key, required this.url, this.title});
 
   @override
   State<WebViewPage> createState() => _WebViewPageState();
@@ -27,18 +26,22 @@ class _WebViewPageState extends State<WebViewPage> {
     }
   }
 
-  Future<bool> _onWillPop() async {
-    if (await controller.canGoBack()) {
+  Future<void> _handleBack() async {
+    if (await controller.canGoBackInWebView()) {
       await controller.goBack();
-      return false;
+      return;
     }
-    return true;
+    Get.back();
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _onWillPop,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+        await _handleBack();
+      },
       child: Scaffold(
         appBar: AppBar(
           title: Obx(
@@ -50,20 +53,16 @@ class _WebViewPageState extends State<WebViewPage> {
           ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
-            onPressed: () async {
-              if (await controller.canGoBack()) {
-                await controller.goBack();
-              } else {
-                Get.back();
-              }
-            },
+            onPressed: _handleBack,
           ),
         ),
         body: Column(
           children: [
             Obx(
               () => LinearProgressIndicator(
-                value: controller.isLoading.value ? controller.progress.value : 0,
+                value: controller.isLoading.value
+                    ? controller.progress.value
+                    : 0,
                 backgroundColor: Colors.transparent,
               ),
             ),
@@ -108,11 +107,12 @@ class _WebViewPageState extends State<WebViewPage> {
                   controller.onTitleChanged(newTitle);
                 },
                 onReceivedError: (webViewController, request, error) {
-                  print('WebView错误: ${error.description}');
+                  debugPrint('WebView错误: ${error.description}');
                 },
-                onReceivedHttpError: (webViewController, request, errorResponse) {
-                  print('HTTP错误: ${errorResponse.statusCode}');
-                },
+                onReceivedHttpError:
+                    (webViewController, request, errorResponse) {
+                      debugPrint('HTTP错误: ${errorResponse.statusCode}');
+                    },
               ),
             ),
           ],

@@ -2,12 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../core/constants/app_constants.dart';
-import '../../routes/app_routes.dart';
+import '../../routes/navigation_service.dart';
+import '../../services/app_info_service.dart';
 import '../../userinfo_page.dart';
 import 'about_page.dart';
 
 import '../../core/constants/common_export.dart';
-
 
 class MinePage extends StatelessWidget {
   const MinePage({super.key});
@@ -68,8 +68,8 @@ class MinePage extends StatelessWidget {
                       context: context,
                       icon: Icons.privacy_tip_outlined,
                       title: '隐私政策',
-                      onTap: () => AppRoutes.toWebView(AppConstants.privacyUrl),
-                      // onTap: () => AppRoutes.toWebView('https://flutter.dev'),
+                      onTap: () =>
+                          NavigationService.toWebView(AppConstants.privacyUrl),
                     ),
                     _buildMenuItem(
                       context: context,
@@ -87,7 +87,7 @@ class MinePage extends StatelessWidget {
                 // 版本号
                 Center(
                   child: Text(
-                    'Version 1.0.0',
+                    AppInfoService.to.displayVersion,
                     style: TextStyle(fontSize: 12.sp, color: Colors.grey[400]),
                   ),
                 ),

@@ -31,13 +31,12 @@ class AppPages {
     ),
 
     GetPage(
-      name: AppRoutes.WEB_VIEW,
+      name: AppRoutes.webView,
       page: () => WebViewPage(
         url: Get.parameters['url'] ?? '',
         title: Get.parameters['title'],
       ),
-      binding:
-      WebViewBinding(),
+      binding: WebViewBinding(),
       transition: Transition.cupertino,
       transitionDuration: const Duration(milliseconds: 300),
     ),

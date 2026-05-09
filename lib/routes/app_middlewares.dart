@@ -1,7 +1,7 @@
 // lib/routes/app_middlewares.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../pages/login/auth_service.dart';
+import '../services/auth_service.dart';
 import 'app_routes.dart';
 
 /// 认证中间件 - 检查用户是否登录

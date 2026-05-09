@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_ce/hive_ce.dart';
 import 'package:path_provider/path_provider.dart';
-import '../pages/login/auth_service.dart';
 import 'config/environment.dart';
 import 'core/network/api_client.dart';
+import 'services/app_info_service.dart';
+import 'services/auth_service.dart';
 import 'services/diary_service.dart';
 import 'services/storage_service.dart';
 
@@ -21,6 +22,10 @@ class App {
     Hive.init(appDocumentDir.path);
     final diaryService = await DiaryService.init();
     Get.put<DiaryService>(diaryService, permanent: true);
+
+    // 初始化应用信息
+    final appInfo = await AppInfoService.init();
+    Get.put<AppInfoService>(appInfo, permanent: true);
 
     // 初始化网络客户端
     await ApiClient.init(

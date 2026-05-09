@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -26,8 +27,12 @@ class WebViewController extends GetxController {
       canGoBack.value = await controller.canGoBack();
       canGoForward.value = await controller.canGoForward();
     } catch (e) {
-      print('更新导航状态失败: $e');
+      debugPrint('更新导航状态失败: $e');
     }
+  }
+
+  Future<bool> canGoBackInWebView() async {
+    return webViewController?.canGoBack() ?? Future.value(false);
   }
 
   void setLoading(bool loading) {
@@ -63,11 +68,5 @@ class WebViewController extends GetxController {
       setLoading(true);
       await webViewController!.reload();
     }
-  }
-
-  @override
-  void onClose() {
-    webViewController?.dispose();
-    super.onClose();
   }
 }

@@ -1,9 +1,8 @@
 // lib/pages/profile/about_page.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core/constants/common_export.dart';
-
+import '../../services/app_info_service.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
@@ -29,7 +28,7 @@ class AboutPage extends StatelessWidget {
 
             // 应用名称
             Text(
-              'Your App Name',
+              AppInfoService.to.appName,
               style: TextStyle(
                 fontSize: 24.sp,
                 fontWeight: AppFontWeights.bold,
@@ -40,7 +39,7 @@ class AboutPage extends StatelessWidget {
             SizedBox(height: 8.h),
 
             Text(
-              'Version 1.0.0',
+              AppInfoService.to.displayVersion,
               style: TextStyle(fontSize: 14.sp, color: Colors.grey[600]),
             ),
 

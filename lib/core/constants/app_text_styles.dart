@@ -130,8 +130,8 @@ class AppTextStyles {
   );
 
   // 标签样式
-  static const TextStyle caption = TextStyle(
-    fontSize: 12,
+  static  TextStyle caption = TextStyle(
+    fontSize: 12.sp,
     fontWeight: FontWeight.normal,
     color: AppColors.textSecondary,
     fontFamily: _fontFamily,
