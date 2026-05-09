@@ -41,6 +41,7 @@ dependencies:
   hive_ce: ^2.19.3
   path_provider: ^2.1.5
   flutter_screenutil: ^5.9.3
+  flutter_native_splash: ^2.4.7
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +54,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
   change_app_package_name: ^1.5.0
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -73,3 +75,14 @@ flutter:
    - assets/images/common/
    - assets/icons/
    - assets/svgs/
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/images/splash_logo_80.png
+  android: true
+  ios: true
+  web: false
+
+  android_12:
+    color: "#FFFFFF"
+    image: assets/images/splash_logo_android12.png

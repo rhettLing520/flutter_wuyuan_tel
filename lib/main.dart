@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'app.dart';
@@ -6,8 +7,12 @@ import 'routes/app_pages.dart';
 import 'routes/app_routes.dart';
 
 void main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await App.init();
   runApp(const MyApp());
+  // 4. 移除闪屏
+  FlutterNativeSplash.remove();
 }
 
 class MyApp extends StatelessWidget {
