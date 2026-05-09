@@ -17,8 +17,8 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    const HomeTab(),
-    const DiscoverTab(),
+    // const HomeTab(),
+    // const DiscoverTab(),
     const MessageTab(),
     const MinePage(),
   ];
@@ -38,20 +38,20 @@ class _HomePageState extends State<HomePage> {
         selectedItemColor: Theme.of(context).colorScheme.primary,
         unselectedItemColor: Colors.grey,
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home),
-            label: '首页',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore_outlined),
-            activeIcon: Icon(Icons.explore),
-            label: '发现',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.home_outlined),
+          //   activeIcon: Icon(Icons.home),
+          //   label: '首页',
+          // ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.explore_outlined),
+          //   activeIcon: Icon(Icons.explore),
+          //   label: '发现',
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.message_outlined),
             activeIcon: Icon(Icons.message),
-            label: '消息',
+            label: '日记',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),

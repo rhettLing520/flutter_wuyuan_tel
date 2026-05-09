@@ -1,13 +1,11 @@
 // lib/pages/profile/profile_page.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../../core/constants/app_colors.dart';
-import '../../core/constants/app_image.dart';
-import '../../core/constants/app_images.dart';
-import '../../core/constants/app_text_styles.dart';
 import '../../userinfo_page.dart';
 import 'about_page.dart';
+
+import '../../core/constants/common_export.dart';
+
 
 class MinePage extends StatelessWidget {
   const MinePage({super.key});

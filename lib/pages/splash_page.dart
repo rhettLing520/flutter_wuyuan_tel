@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:secretchat/core/constants/app_image.dart';
-import 'package:secretchat/core/constants/app_images.dart';
 import '../routes/app_routes.dart';
+
+import '../../core/constants/common_export.dart';
+
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
