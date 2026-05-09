@@ -1,9 +1,11 @@
 // lib/routes/app_pages.dart
 import 'package:get/get.dart';
+import '../logic/bindings/web_view_binding.dart';
 import '../pages/splash_page.dart';
 import '../pages/onboarding_page.dart';
 import '../pages/login/login_page.dart';
 import '../pages/home/home_page.dart';
+import '../pages/webview/web_view_page.dart';
 import 'app_routes.dart';
 import '../logic/bindings/auth_binding.dart';
 
@@ -25,6 +27,18 @@ class AppPages {
       name: AppRoutes.home,
       page: () => const HomePage(),
       transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
+    GetPage(
+      name: AppRoutes.WEB_VIEW,
+      page: () => WebViewPage(
+        url: Get.parameters['url'] ?? '',
+        title: Get.parameters['title'],
+      ),
+      binding:
+      WebViewBinding(),
+      transition: Transition.cupertino,
       transitionDuration: const Duration(milliseconds: 300),
     ),
 

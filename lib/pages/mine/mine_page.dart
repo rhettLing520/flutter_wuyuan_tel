@@ -1,6 +1,8 @@
 // lib/pages/profile/profile_page.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../core/constants/app_constants.dart';
+import '../../routes/app_routes.dart';
 import '../../userinfo_page.dart';
 import 'about_page.dart';
 
@@ -66,7 +68,8 @@ class MinePage extends StatelessWidget {
                       context: context,
                       icon: Icons.privacy_tip_outlined,
                       title: '隐私政策',
-                      onTap: () => Get.to(() => const PrivacyPolicyPage()),
+                      onTap: () => AppRoutes.toWebView(AppConstants.privacyUrl),
+                      // onTap: () => AppRoutes.toWebView('https://flutter.dev'),
                     ),
                     _buildMenuItem(
                       context: context,

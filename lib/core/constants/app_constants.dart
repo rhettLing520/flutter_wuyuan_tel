@@ -14,4 +14,11 @@ class AppConstants {
   // 存储 Key
   static const String tokenKey = 'access_token';
   static const String userKey = 'user_info';
+
+
+  // H5链接
+
+  static const String baseH5Url = 'https://api.example.com';
+  static const String privacyUrl = 'https://www.baidu.com';
+  static const String commonH5Url = 'https://www.baidu.com';
 }
