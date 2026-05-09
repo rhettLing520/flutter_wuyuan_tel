@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:untitled323111/core/constants/app_text.dart';
+import 'package:secretchat/core/constants/app_text.dart';
 import '../core/constants/app_colors.dart';
 import '../routes/app_routes.dart';
 import '../widgets/common_button.dart';

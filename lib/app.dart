@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_ce/hive_ce.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:untitled323111/pages/login/auth_service.dart';
+import 'package:secretchat/pages/login/auth_service.dart';
 import 'config/environment.dart';
 import 'core/network/api_client.dart';
 import 'services/diary_service.dart';

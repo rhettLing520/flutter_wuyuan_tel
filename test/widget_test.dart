@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:untitled323111/pages/home/home_page.dart';
+import 'package:secretchat/pages/home/home_page.dart';
 
 void main() {
   testWidgets('Home page renders bottom navigation', (
