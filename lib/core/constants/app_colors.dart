@@ -4,7 +4,7 @@ class AppColors {
   AppColors._();
 
   // 主色调
-  static const Color primary = Color(0xFF2196F3);
+  static const Color primary = Color(0xFf377BFF);
   static const Color primaryLight = Color(0xFF64B5F6);
   static const Color primaryDark = Color(0xFF1976D2);
 
@@ -38,6 +38,10 @@ class AppColors {
 
   // 阴影
   static const Color shadow = Color(0x1F000000);
+
+  //倒数日颜色
+  static const Color countDownRed = Color(0xFFFF5045);
+  static const Color countDownBlue = Color(0xFf377BFF);
 
   // 渐变色
   static const LinearGradient primaryGradient = LinearGradient(

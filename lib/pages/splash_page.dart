@@ -30,7 +30,7 @@ class _SplashPageState extends State<SplashPage> {
       backgroundColor: Colors.white,
       body: Center(
         child: AppImage(
-          imagePath: AppImages.getImage("logo"),
+          imagePath: AppImages.getAssetsPath("logo"),
           width: 80.w,
           height: 80.w,
         ),

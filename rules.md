@@ -118,3 +118,5 @@ Text('标题', style: TextStyle(fontSize: 16.sp, color: Colors.grey[600]))
 
 
 不用读取这些生成的文件，例如.dart_tool, .idea,.build文件就不要检查了
+
+需要使用本地assets路径下图片的，都使用AppImage的形式，其中地址都用AppImages的getAssetsPath来获取，

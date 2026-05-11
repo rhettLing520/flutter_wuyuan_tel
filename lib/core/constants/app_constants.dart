@@ -20,5 +20,6 @@ class AppConstants {
 
   static const String baseH5Url = 'https://api.example.com';
   static const String privacyUrl = 'https://www.baidu.com';
+  static const String userAgreementUrl = 'https://www.baidu.com';
   static const String commonH5Url = 'https://www.baidu.com';
 }

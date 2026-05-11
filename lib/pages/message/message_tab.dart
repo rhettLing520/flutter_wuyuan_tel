@@ -1,10 +1,13 @@
 // lib/pages/home/message_tab.dart
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/constants/common_export.dart';
 import '../../data/models/diary_entry.dart';
 import '../../services/diary_service.dart';
+import '../../widgets/app_app_bar.dart';
 import '../message/diary_editor_page.dart';
 
 class MessageTab extends StatefulWidget {
@@ -18,24 +21,16 @@ class _MessageTabState extends State<MessageTab> {
   final DiaryService _diaryService = Get.find<DiaryService>();
 
   void _openEditor([DiaryEntry? entry]) {
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (_) => DiaryEditorPage(entry: entry)));
+    Get.to(() => DiaryEditorPage(entry: entry));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('日记本'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () => _openEditor(),
-            icon: const Icon(Icons.edit_note),
-            tooltip: '写日记',
-          ),
-        ],
+      backgroundColor: AppColors.background,
+      appBar: const AppAppBar(
+        titleText: '日记本',
+        automaticallyImplyLeading: false,
       ),
       body: StreamBuilder(
         stream: _diaryService.watch(),
@@ -44,40 +39,37 @@ class _MessageTabState extends State<MessageTab> {
 
           if (entries.isEmpty) {
             return Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.menu_book_outlined,
-                      size: 64,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    const SizedBox(height: 16),
-                    AppText(
-                      '还没有日记',
-                      fontSize: 16.sp,
-                      fontWeight: AppFontWeights.medium,
-                      color: AppColors.textPrimary,
-                    ),
-                    const SizedBox(height: 8),
-                    AppText(
-                      '点击右上角写下第一篇日记',
-                      textAlign: TextAlign.center,
-                      fontSize: 14.sp,
-                      color: AppColors.textSecondary,
-                    ),
-                  ],
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.menu_book_outlined,
+                    size: 64.sp,
+                    color: AppColors.textHint,
+                  ),
+                  SizedBox(height: 16.h),
+                  AppText(
+                    '还没有日记',
+                    fontSize: 16.sp,
+                    fontWeight: AppFontWeights.medium,
+                    color: AppColors.textSecondary,
+                  ),
+                  SizedBox(height: 8.h),
+                  AppText(
+                    '点击右下角 + 写下第一篇日记',
+                    fontSize: 14.sp,
+                    color: AppColors.textHint,
+                  ),
+                ],
               ),
             );
           }
 
           return ListView.separated(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+            padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 24.h),
             itemCount: entries.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 10),
+            separatorBuilder: (context, index) =>
+                SizedBox(height: 10.h),
             itemBuilder: (context, index) {
               final entry = entries[index];
               return _DiaryEntryTile(
@@ -87,6 +79,14 @@ class _MessageTabState extends State<MessageTab> {
             },
           );
         },
+      ),
+      floatingActionButton: GestureDetector(
+        onTap: () => _openEditor(),
+        child: AppImage(
+          imagePath: AppImages.getAssetsPath('add_bot', extension: 'png'),
+          width: 56.w,
+          height: 56.w,
+        ),
       ),
     );
   }
@@ -100,61 +100,95 @@ class _DiaryEntryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Material(
-      color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.6),
-      borderRadius: BorderRadius.circular(8),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(8),
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: AppText(
-                      entry.title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      fontSize: 16.sp,
-                      fontWeight: AppFontWeights.semiBold,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  AppText(
-                    _formatDate(entry.createdAt),
-                    fontSize: 12.sp,
-                    color: AppColors.textSecondary,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              AppText(
-                entry.content,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                fontSize: 14.sp,
-                color: AppColors.textSecondary,
-                height: 1.35,
-              ),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 日期
+            AppText(
+              _formatDate(entry.createdAt),
+              fontSize: 12.sp,
+              color: AppColors.textHint,
+            ),
+            SizedBox(height: 6.h),
+            // 标题
+            AppText(
+              entry.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              fontSize: 16.sp,
+              fontWeight: AppFontWeights.semiBold,
+              color: AppColors.textPrimary,
+            ),
+            SizedBox(height: 6.h),
+            // 内容
+            AppText(
+              entry.content,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              fontSize: 14.sp,
+              color: AppColors.textSecondary,
+              height: 1.35,
+            ),
+            // 图片展示
+            if (entry.images.isNotEmpty) ...[
+              SizedBox(height: 10.h),
+              _buildImageRow(),
             ],
-          ),
+          ],
         ),
       ),
     );
   }
 
+  Widget _buildImageRow() {
+    final displayImages = entry.images.take(3).toList();
+    return Row(
+      children: displayImages.map((path) {
+        return Padding(
+          padding: EdgeInsets.only(right: 8.w),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(6.r),
+            child: Image.file(
+              File(path),
+              width: 80.w,
+              height: 80.w,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) {
+                return Container(
+                  width: 80.w,
+                  height: 80.w,
+                  decoration: BoxDecoration(
+                    color: AppColors.divider,
+                    borderRadius: BorderRadius.circular(6.r),
+                  ),
+                  child: Icon(
+                    Icons.image_not_supported,
+                    size: 24.w,
+                    color: AppColors.textHint,
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
   static String _formatDate(DateTime date) {
+    final year = date.year;
     final month = date.month.toString().padLeft(2, '0');
     final day = date.day.toString().padLeft(2, '0');
     final hour = date.hour.toString().padLeft(2, '0');
     final minute = date.minute.toString().padLeft(2, '0');
-    return '${date.year}-$month-$day $hour:$minute';
+    return '$year.$month.$day $hour:$minute';
   }
 }

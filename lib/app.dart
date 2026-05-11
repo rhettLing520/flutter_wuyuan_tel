@@ -6,6 +6,7 @@ import 'config/environment.dart';
 import 'core/network/api_client.dart';
 import 'services/app_info_service.dart';
 import 'services/auth_service.dart';
+import 'services/countdown_service.dart';
 import 'services/diary_service.dart';
 import 'services/image_picker_service.dart';
 import 'services/permission_service.dart';
@@ -24,6 +25,10 @@ class App {
     Hive.init(appDocumentDir.path);
     final diaryService = await DiaryService.init();
     Get.put<DiaryService>(diaryService, permanent: true);
+
+    // 初始化 Hive 倒数日存储
+    final countdownService = await CountdownService.init();
+    Get.put<CountdownService>(countdownService, permanent: true);
 
     // 初始化应用信息
     final appInfo = await AppInfoService.init();

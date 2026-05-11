@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../core/constants/app_text.dart';
 
 import '../core/constants/app_text_styles.dart';
+import '../core/constants/common_export.dart';
 
 class CommonButton extends StatelessWidget {
   final String text; // 按钮文字
@@ -101,6 +102,48 @@ class GradientButton extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+
+/// 底部确定按钮（带安全区域适配）
+class BottomConfirmButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onTap;
+  final Color? startColor;
+  final Color? endColor;
+  final double? height;
+  final double fontSize;
+
+  const BottomConfirmButton({
+    super.key,
+    required this.text,
+    required this.onTap,
+    this.startColor,
+    this.endColor,
+    this.height = 48,
+    this.fontSize = 18,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(
+        16.w,
+        12.h,
+        16.w,
+        12.h + MediaQuery.of(context).padding.bottom,
+      ),
+      color: AppColors.background,
+      child: GradientButton(
+        text: text,
+        startColor: startColor ?? AppColors.primary,
+        endColor: endColor ?? AppColors.f3AEFFF,
+        onTap: onTap,
+        height: height,
+        fontSize: fontSize,
       ),
     );
   }

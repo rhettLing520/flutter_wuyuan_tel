@@ -1,13 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:secretchat/core/utils/toast_util.dart';
 
+import '../../core/constants/common_export.dart';
 import '../../data/models/diary_entry.dart';
 import '../../services/diary_service.dart';
 import '../../services/image_picker_service.dart';
+import '../../widgets/app_app_bar.dart';
+import '../../widgets/common_button.dart';
 
 class DiaryEditorPage extends StatefulWidget {
   const DiaryEditorPage({super.key, this.entry});
@@ -52,14 +53,12 @@ class _DiaryEditorPageState extends State<DiaryEditorPage> {
     final content = _contentController.text.trim();
 
     if (title.isEmpty) {
-      // Toast.snackbar('提示', '请输入日记标题');
       ToastUtil.show("请输入日记标题");
       return;
     }
 
     if (content.isEmpty && _images.isEmpty) {
       ToastUtil.show("请输入内容");
-      // Get.snackbar('提示', '请输入日记内容或添加图片');
       return;
     }
 
@@ -71,11 +70,15 @@ class _DiaryEditorPageState extends State<DiaryEditorPage> {
         images: _images,
       );
     } else {
-      await _diaryService.addEntry(title: title, content: content, images: _images);
+      await _diaryService.addEntry(
+        title: title,
+        content: content,
+        images: _images,
+      );
     }
 
     if (mounted) {
-      Navigator.of(context).pop();
+      Get.back();
     }
   }
 
@@ -84,16 +87,16 @@ class _DiaryEditorPageState extends State<DiaryEditorPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('删除日记'),
-          content: const Text('确定要删除这篇日记吗？'),
+          title: const AppText('删除日记'),
+          content: const AppText('确定要删除这篇日记吗？'),
           actions: [
             TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('取消'),
+              onPressed: () => Get.back(result: false),
+              child: const AppText('取消'),
             ),
             TextButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              child: const Text('删除'),
+              onPressed: () => Get.back(result: true),
+              child: const AppText('删除', color: AppColors.error),
             ),
           ],
         );
@@ -104,14 +107,13 @@ class _DiaryEditorPageState extends State<DiaryEditorPage> {
     await _diaryService.deleteEntry(widget.entry!.id);
 
     if (mounted) {
-      Navigator.of(context).pop();
+      Get.back();
     }
   }
 
-  /// 选择图片
   Future<void> _pickImages() async {
     if (_images.length >= 9) {
-      Get.snackbar('提示', '最多只能添加9张图片');
+      ToastUtil.show('最多只能添加9张图片');
       return;
     }
 
@@ -127,149 +129,223 @@ class _DiaryEditorPageState extends State<DiaryEditorPage> {
     }
   }
 
-  /// 删除图片
   void _removeImage(int index) {
     setState(() {
       _images.removeAt(index);
     });
   }
 
-  /// 预览图片
   void _previewImage(int index) {
-    Get.to(
-      () => _ImagePreviewPage(
-        images: _images,
-        initialIndex: index,
-      ),
-    );
+    Get.to(() => _ImagePreviewPage(images: _images, initialIndex: index));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_isEditing ? '编辑日记' : '写日记'),
-        centerTitle: true,
+      backgroundColor: AppColors.background,
+      appBar: AppAppBar(
+        titleText: _isEditing ? '编辑记录' : '添加记录',
         actions: [
           if (_isEditing)
             IconButton(
               onPressed: _delete,
-              icon: const Icon(Icons.delete_outline),
+              icon: const Icon(Icons.delete_outline, color: AppColors.error),
               tooltip: '删除',
             ),
-          TextButton(onPressed: _save, child: const Text('保存')),
         ],
       ),
-      body: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 24.h),
-          children: [
-            TextField(
-              controller: _titleController,
-              textInputAction: TextInputAction.next,
-              decoration: const InputDecoration(
-                labelText: '标题',
-                hintText: '今天发生了什么？',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 14.h),
-            TextField(
-              controller: _contentController,
-              minLines: 12,
-              maxLines: null,
-              keyboardType: TextInputType.multiline,
-              decoration: const InputDecoration(
-                labelText: '内容',
-                hintText: '记录这一刻的想法...',
-                alignLabelWithHint: true,
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 16.h),
-            // 图片选择按钮
-            if (_images.length < 9)
-              InkWell(
-                onTap: _pickImages,
-                child: Container(
-                  height: 100.h,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey[300]!,
-                      style: BorderStyle.solid,
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // 标题输入
+                  AppText(
+                    '标题',
+                    fontSize: 14.sp,
+                    fontWeight: AppFontWeights.medium,
+                    color: AppColors.textSecondary,
+                  ),
+                  SizedBox(height: 8.h),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      borderRadius: BorderRadius.circular(8.r),
+                      border: Border.all(color: AppColors.divider),
                     ),
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.add_photo_alternate,
-                        size: 40.sp,
-                        color: Colors.grey[400],
+                    child: TextField(
+                      controller: _titleController,
+                      textInputAction: TextInputAction.next,
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: AppColors.textPrimary,
                       ),
-                      SizedBox(height: 8.h),
-                      Text(
-                        '添加图片',
-                        style: TextStyle(
-                          color: Colors.grey[400],
-                          fontSize: 14.sp,
+                      decoration: InputDecoration(
+                        hintText: '我是标题',
+                        hintStyle: TextStyle(
+                          fontSize: 16.sp,
+                          color: AppColors.textHint,
+                        ),
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 14.h,
                         ),
                       ),
-                    ],
+                    ),
+                  ),
+
+                  SizedBox(height: 16.h),
+
+                  // 内容输入
+                  AppText(
+                    '记录内容',
+                    fontSize: 14.sp,
+                    fontWeight: AppFontWeights.medium,
+                    color: AppColors.textSecondary,
+                  ),
+                  SizedBox(height: 8.h),
+                  Container(
+                    constraints: BoxConstraints(minHeight: 200.h),
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: TextField(
+                      controller: _contentController,
+                      maxLines: null,
+                      keyboardType: TextInputType.multiline,
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: AppColors.textPrimary,
+                        height: 1.5,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: '记录这一刻的想法...',
+                        hintStyle: TextStyle(
+                          fontSize: 16.sp,
+                          color: AppColors.textHint,
+                        ),
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 14.h,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 16.h),
+
+                  // 添加图片
+                  AppText(
+                    '添加图片',
+                    fontSize: 14.sp,
+                    fontWeight: AppFontWeights.medium,
+                    color: AppColors.textSecondary,
+                  ),
+                  SizedBox(height: 8.h),
+                  SizedBox(
+                    height: 90.w,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _images.length + (_images.length < 9 ? 1 : 0),
+                      separatorBuilder: (_, _) => SizedBox(width: 8.w),
+                      itemBuilder: (context, index) {
+                        // 最后一个是上传按钮
+                        if (index == _images.length) {
+                          return _buildUploadButton();
+                        }
+                        return _buildImageItem(index);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // 底部确定按钮
+          BottomConfirmButton(text: '确定', onTap: _save),
+        ],
+      ),
+    );
+  }
+
+  /// 上传按钮
+  Widget _buildUploadButton() {
+    return GestureDetector(
+      onTap: _pickImages,
+      child: Container(
+        width: 80.w,
+        height: 80.w,
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(8.r),
+          border: Border.all(color: AppColors.divider),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.camera_alt_outlined,
+              size: 28.sp,
+              color: AppColors.textHint,
+            ),
+            SizedBox(height: 4.h),
+            AppText('上传', fontSize: 12.sp, color: AppColors.textHint),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// 图片项
+  Widget _buildImageItem(int index) {
+    return GestureDetector(
+      onTap: () => _previewImage(index),
+      child: Container(
+        width: 80.w,
+        height: 80.w,
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(8.r),
+          border: Border.all(color: AppColors.divider),
+        ),
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(7.r),
+              child: Image.file(
+                File(_images[index]),
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
+              ),
+            ),
+            // 删除按钮
+            Positioned(
+              top: 2.h,
+              left: 2.w,
+              child: GestureDetector(
+                onTap: () => _removeImage(index),
+                child: Container(
+                  padding: EdgeInsets.all(2.w),
+                  decoration: const BoxDecoration(
+                    color: AppColors.textHint,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.close,
+                    size: 12.sp,
+                    color: AppColors.textWhite,
                   ),
                 ),
               ),
-            SizedBox(height: 16.h),
-            // 图片网格
-            if (_images.isNotEmpty)
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 8.w,
-                  mainAxisSpacing: 8.h,
-                ),
-                itemCount: _images.length,
-                itemBuilder: (context, index) {
-                  return Stack(
-                    children: [
-                      GestureDetector(
-                        onTap: () => _previewImage(index),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.r),
-                          child: Image.file(
-                            File(_images[index]),
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: double.infinity,
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 4.h,
-                        right: 4.w,
-                        child: GestureDetector(
-                          onTap: () => _removeImage(index),
-                          child: Container(
-                            padding: EdgeInsets.all(4.w),
-                            decoration: BoxDecoration(
-                              color: Colors.black54,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.close,
-                              color: Colors.white,
-                              size: 16.sp,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
+            ),
           ],
         ),
       ),
@@ -279,10 +355,7 @@ class _DiaryEditorPageState extends State<DiaryEditorPage> {
 
 /// 图片预览页面
 class _ImagePreviewPage extends StatefulWidget {
-  const _ImagePreviewPage({
-    required this.images,
-    required this.initialIndex,
-  });
+  const _ImagePreviewPage({required this.images, required this.initialIndex});
 
   final List<String> images;
   final int initialIndex;
@@ -314,10 +387,11 @@ class _ImagePreviewPageState extends State<_ImagePreviewPage> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        iconTheme: const IconThemeData(color: Colors.white),
-        title: Text(
+        iconTheme: const IconThemeData(color: AppColors.textWhite),
+        title: AppText(
           '${_currentIndex + 1}/${widget.images.length}',
-          style: const TextStyle(color: Colors.white),
+          fontSize: 16.sp,
+          color: AppColors.textWhite,
         ),
       ),
       body: Stack(
@@ -341,7 +415,6 @@ class _ImagePreviewPageState extends State<_ImagePreviewPage> {
               );
             },
           ),
-          // 左右指示器
           if (widget.images.length > 1)
             Positioned(
               left: 16.w,
@@ -360,7 +433,7 @@ class _ImagePreviewPageState extends State<_ImagePreviewPage> {
                       },
                       icon: const Icon(
                         Icons.arrow_back_ios,
-                        color: Colors.white,
+                        color: AppColors.textWhite,
                       ),
                     ),
                   if (_currentIndex < widget.images.length - 1)
@@ -373,7 +446,7 @@ class _ImagePreviewPageState extends State<_ImagePreviewPage> {
                       },
                       icon: const Icon(
                         Icons.arrow_forward_ios,
-                        color: Colors.white,
+                        color: AppColors.textWhite,
                       ),
                     ),
                 ],

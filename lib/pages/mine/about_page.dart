@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/common_export.dart';
 import '../../services/app_info_service.dart';
+import '../../widgets/app_app_bar.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
@@ -10,7 +11,7 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('关于我们'), centerTitle: true),
+      appBar: const AppAppBar(titleText: '关于我们'),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -18,7 +19,7 @@ class AboutPage extends StatelessWidget {
 
             // Logo
             AppImage(
-              imagePath: AppImages.getImage("logo"),
+              imagePath: AppImages.getAssetsPath("logo"),
               width: 100.w,
               height: 100.h,
               radius: 20,

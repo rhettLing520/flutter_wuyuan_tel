@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-import '../../data/models/diary_entry.dart';
-import '../../services/diary_service.dart';
-import '../message/diary_editor_page.dart';
+import '../../core/constants/common_export.dart';
+import '../countdown/countdown_list_page.dart';
 import '../message/message_tab.dart';
 import '../mine/mine_page.dart';
 
@@ -18,9 +16,8 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    // const HomeTab(),
-    // const DiscoverTab(),
     const MessageTab(),
+    const CountdownListPage(),
     const MinePage(),
   ];
 
@@ -36,23 +33,18 @@ class _HomePageState extends State<HomePage> {
           });
         },
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Theme.of(context).colorScheme.primary,
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: AppColors.textHint,
         items: const [
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.home_outlined),
-          //   activeIcon: Icon(Icons.home),
-          //   label: '首页',
-          // ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.explore_outlined),
-          //   activeIcon: Icon(Icons.explore),
-          //   label: '发现',
-          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.message_outlined),
             activeIcon: Icon(Icons.message),
             label: '日记',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.event_outlined),
+            activeIcon: Icon(Icons.event),
+            label: '倒数日',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),

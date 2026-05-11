@@ -2,10 +2,10 @@
 class AppImages {
   // 基础路径
   static const String _basePath = 'assets/images';
-  static const String logo = 'assets/images/logo.webp';
-  static const String avatarDefault = 'assets/images/logo.webp';
+  static const String logo = '$_basePath/logo.webp';
+  static const String avatarDefault = '$_basePath/logo.webp';
 
-  static String getImage(
+  static String getAssetsPath(
     String name, {
     String? category,
     String extension = 'webp',

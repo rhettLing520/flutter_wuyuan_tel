@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 
+import '../../core/constants/common_export.dart';
 import '../../logic/controllers/webview_controller.dart';
+import '../../widgets/app_app_bar.dart';
 
 class WebViewPage extends StatefulWidget {
   final String url;
@@ -43,17 +45,27 @@ class _WebViewPageState extends State<WebViewPage> {
         await _handleBack();
       },
       child: Scaffold(
-        appBar: AppBar(
+        appBar: AppAppBar(
           title: Obx(
-            () => Text(
+            () => AppText(
               controller.title.value.isEmpty ? '网页' : controller.title.value,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
+              fontSize: 18.sp,
+              fontWeight: AppFontWeights.medium,
+              color: AppColors.textPrimary,
             ),
           ),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: _handleBack,
+          leading: GestureDetector(
+            onTap: _handleBack,
+            child: Align(
+              alignment: Alignment.center,
+              child: AppImage(
+                imagePath: AppImages.getAssetsPath('back'),
+                width: 24.w,
+                height: 24.w,
+              ),
+            ),
           ),
         ),
         body: Column(
