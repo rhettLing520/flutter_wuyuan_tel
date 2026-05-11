@@ -110,7 +110,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   ),
                 ),
                 const SizedBox(height: 40),
-                Padding(padding: const EdgeInsets.symmetric(horizontal: 20)),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: GradientButton(

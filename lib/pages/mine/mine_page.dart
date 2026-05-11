@@ -10,8 +10,15 @@ import 'about_page.dart';
 
 import '../../core/constants/common_export.dart';
 
-class MinePage extends StatelessWidget {
+class MinePage extends StatefulWidget {
   const MinePage({super.key});
+
+  @override
+  State<MinePage> createState() => _MinePageState();
+}
+
+class _MinePageState extends State<MinePage> {
+  bool _notificationEnabled = true;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +69,14 @@ class MinePage extends StatelessWidget {
                       context: context,
                       icon: Icons.notifications_outlined,
                       title: '消息通知',
-                      trailing: Switch(value: true, onChanged: (value) {}),
+                      trailing: Switch(
+                        value: _notificationEnabled,
+                        onChanged: (value) {
+                          setState(() {
+                            _notificationEnabled = value;
+                          });
+                        },
+                      ),
                       onTap: () {},
                     ),
                     _buildMenuItem(

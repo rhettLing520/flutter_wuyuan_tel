@@ -68,5 +68,14 @@
 		</array>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<!-- 相机权限描述 -->
+		<key>NSCameraUsageDescription</key>
+		<string>需要相机权限来拍摄照片</string>
+		<!-- 相册权限描述 -->
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>需要相册权限来选择照片</string>
+		<!-- 照片权限描述 (iOS 14+) -->
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>需要相册权限来保存照片</string>
 	</dict>
 </plist>

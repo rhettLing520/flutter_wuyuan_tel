@@ -7,6 +7,8 @@ import 'core/network/api_client.dart';
 import 'services/app_info_service.dart';
 import 'services/auth_service.dart';
 import 'services/diary_service.dart';
+import 'services/image_picker_service.dart';
+import 'services/permission_service.dart';
 import 'services/storage_service.dart';
 
 class App {
@@ -43,5 +45,11 @@ class App {
 
     // 注册全局服务
     Get.put<AuthService>(AuthService(), permanent: true);
+
+    // 初始化权限服务
+    Get.put<PermissionService>(PermissionService(), permanent: true);
+
+    // 初始化图片选择服务
+    Get.put<ImagePickerService>(ImagePickerService(), permanent: true);
   }
 }

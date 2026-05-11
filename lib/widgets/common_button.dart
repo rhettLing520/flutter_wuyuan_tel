@@ -9,7 +9,7 @@ class CommonButton extends StatelessWidget {
   final Color bgColor; // 背景色
   final Color textColor; // 文字颜色
   final double? height; // 高度（可选）
-  final double? width; // 高度（可选）
+  final double? width; // 宽度（可选）
   final double? fontSize; // 字体大小（可选）
   final VoidCallback onTap; // 点击事件
 
@@ -26,23 +26,23 @@ class CommonButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: height!.h,
-        width: width!.w,
-        decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: BorderRadius.circular(8.r), // 圆角可改
-        ),
-        alignment: Alignment.center,
-        // 文字绝对居中
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: fontSize!.sp,
-            color: textColor,
-            fontWeight: AppFontWeights.medium, // 用你刚才写的字体粗细
+    return Material(
+      color: bgColor,
+      borderRadius: BorderRadius.circular(8.r),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(8.r),
+        child: Container(
+          height: height!.h,
+          width: width!.w,
+          alignment: Alignment.center,
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: fontSize!.sp,
+              color: textColor,
+              fontWeight: AppFontWeights.medium,
+            ),
           ),
         ),
       ),
@@ -56,7 +56,7 @@ class GradientButton extends StatelessWidget {
   final Color endColor; // 右边渐变颜色
   final Color textColor;
   final double? height;
-  final double? width; // 高度（可选）
+  final double? width; // 宽度（可选）
   final double fontSize;
   final VoidCallback onTap;
 
@@ -74,27 +74,32 @@ class GradientButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: height!.h,
-        width: width?.h,
-        // 核心：左右渐变
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [startColor, endColor],
-            begin: Alignment.centerLeft, // 左
-            end: Alignment.centerRight, // 右
-          ),
-          borderRadius: BorderRadius.circular(8.r),
+    return Container(
+      height: height!.h,
+      width: width?.w,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [startColor, endColor],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
         ),
-        alignment: Alignment.center,
-        // 文字绝对居中
-        child: AppText(
-          text,
-          fontSize: fontSize.sp,
-          color: textColor,
-          fontWeight: AppFontWeights.medium,
+        borderRadius: BorderRadius.circular(8.r),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(8.r),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(8.r),
+          child: Container(
+            alignment: Alignment.center,
+            child: AppText(
+              text,
+              fontSize: fontSize.sp,
+              color: textColor,
+              fontWeight: AppFontWeights.medium,
+            ),
+          ),
         ),
       ),
     );

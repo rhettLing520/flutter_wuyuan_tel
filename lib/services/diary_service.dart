@@ -33,12 +33,14 @@ class DiaryService extends GetxService {
   Future<void> addEntry({
     required String title,
     required String content,
+    List<String> images = const [],
   }) async {
     final now = DateTime.now();
     final entry = DiaryEntry(
       id: now.microsecondsSinceEpoch.toString(),
       title: title.trim(),
       content: content.trim(),
+      images: images,
       createdAt: now,
       updatedAt: now,
     );
@@ -49,6 +51,7 @@ class DiaryService extends GetxService {
     required String id,
     required String title,
     required String content,
+    List<String>? images,
   }) async {
     final oldEntry = getEntry(id);
     if (oldEntry == null) return;
@@ -56,6 +59,7 @@ class DiaryService extends GetxService {
     final entry = oldEntry.copyWith(
       title: title.trim(),
       content: content.trim(),
+      images: images,
       updatedAt: DateTime.now(),
     );
     await _box.put(id, entry.toMap());
