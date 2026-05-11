@@ -39,7 +39,7 @@ class ContactUsPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         AppImage(
-                          imagePath: AppImages.getAssetsPath('default_test'),
+                          imagePath: AppImages.getAssetsPath('contact_us_qq'),
                           width: 24.w,
                           height: 24.w,
                           errorWidget: Icon(
@@ -61,7 +61,7 @@ class ContactUsPage extends StatelessWidget {
 
                     // 二维码
                     AppImage(
-                      imagePath: AppImages.getAssetsPath('default_test'),
+                      imagePath: AppImages.getAssetsPath('contact_us_qq_code'),
                       width: 180.w,
                       height: 180.w,
                       radius: 8.r,

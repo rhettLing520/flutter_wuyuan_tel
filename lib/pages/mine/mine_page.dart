@@ -40,13 +40,13 @@ class MinePage extends StatelessWidget {
                       onTap: () =>
                           NavigationService.toWebView(AppConstants.privacyUrl),
                     ),
-                    _buildMenuItem(
-                      title: '应用评价',
-                      onTap: () => NavigationService.toWebView(
-                        AppConstants.userAgreementUrl,
-                      ),
-                    ),
-                    _buildMenuItem(title: '分享好友', onTap: () {}),
+                    // _buildMenuItem(
+                    //   title: '应用评价',
+                    //   onTap: () => NavigationService.toWebView(
+                    //     AppConstants.userAgreementUrl,
+                    //   ),
+                    // ),
+                    // _buildMenuItem(title: '分享好友', onTap: () {}),
                     _buildMenuItem(
                       title: '联系我们',
                       onTap: () => Get.to(() => const ContactUsPage()),
@@ -76,10 +76,10 @@ class MinePage extends StatelessWidget {
           // 头像
           ClipOval(
             child: AppImage(
-              imagePath: AppImages.avatarDefault,
+              imagePath:  AppImages.getAssetsPath('mine_avatar_default'),
               width: 70.w,
               height: 70.w,
-              border: Border.all(color: AppColors.textWhite, width: 2.w),
+              // border: Border.all(color:      AppColors.textWhite, width: 2.w),
             ),
           ),
           SizedBox(width: 16.w),

@@ -26,12 +26,6 @@ class _CountdownListPageState extends State<CountdownListPage> {
       appBar: AppAppBar(
         titleText: '倒数日',
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            onPressed: () => Get.to(() => const CountdownEditorPage()),
-            icon: Icon(Icons.add, size: 28.w, color: AppColors.textPrimary),
-          ),
-        ],
       ),
       body: StreamBuilder<BoxEvent>(
         stream: _countdownService.watch(),
