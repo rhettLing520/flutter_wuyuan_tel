@@ -25,7 +25,7 @@ class CountdownDetailPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: const AppAppBar(titleText: '事件详情'),
+      appBar: const AppAppBar(titleText: 'Event Detail'),
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 24.h),
         child: Column(
@@ -55,10 +55,10 @@ class CountdownDetailPage extends StatelessWidget {
                     ),
                     child: AppText(
                       isToday
-                          ? '${event.title}就是今天'
+                          ? '${event.title} is today'
                           : isFuture
-                          ? '${event.title}还有'
-                          : '${event.title}已经',
+                          ? '${event.title} in'
+                          : '${event.title} ago',
                       textAlign: TextAlign.center,
                       fontSize: 16.sp,
                       fontWeight: AppFontWeights.medium,
@@ -78,7 +78,7 @@ class CountdownDetailPage extends StatelessWidget {
                         ),
                         SizedBox(height: 8.h),
                         AppText(
-                          '日期: ${_formatDate(event.targetDate)}',
+                          'Date: ${_formatDate(event.targetDate)}',
                           fontSize: 14.sp,
                           color: AppColors.textSecondary,
                         ),
@@ -102,7 +102,7 @@ class CountdownDetailPage extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: AppText(
-                  '从日程中移除',
+                  'Remove from schedule',
                   fontSize: 16.sp,
                   color: AppColors.error,
                 ),
@@ -119,16 +119,16 @@ class CountdownDetailPage extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const AppText('移除事件', textAlign: TextAlign.center),
-          content: const AppText('确定要从日程中移除这个事件吗？'),
+          title: const AppText('Remove Event', textAlign: TextAlign.center),
+          content: const AppText('Are you sure you want to remove this event?'),
           actions: [
             TextButton(
               onPressed: () => Get.back(result: false),
-              child: const AppText('取消'),
+              child: const AppText('Cancel'),
             ),
             TextButton(
               onPressed: () => Get.back(result: true),
-              child: const AppText('移除', color: AppColors.error),
+              child: const AppText('Remove', color: AppColors.error),
             ),
           ],
         );
@@ -140,7 +140,7 @@ class CountdownDetailPage extends StatelessWidget {
     await service.deleteEvent(event.id);
     if (context.mounted) {
       Get.back();
-      ToastUtil.show('已移除');
+      ToastUtil.show('Removed');
     }
   }
 

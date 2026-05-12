@@ -39,17 +39,17 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.message_outlined),
             activeIcon: Icon(Icons.message),
-            label: '日记',
+            label: 'Diary',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.event_outlined),
             activeIcon: Icon(Icons.event),
-            label: '倒数日',
+            label: 'Countdown',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),
             activeIcon: Icon(Icons.person),
-            label: '我的',
+            label: 'Me',
           ),
         ],
       ),
@@ -63,8 +63,8 @@ class HomeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('首页'), centerTitle: true),
-      body: const Center(child: Text('首页内容', style: TextStyle(fontSize: 24))),
+      appBar: AppBar(title: const Text('Home'), centerTitle: true),
+      body: const Center(child: Text('Home Content', style: TextStyle(fontSize: 24))),
     );
   }
 }
@@ -75,8 +75,8 @@ class DiscoverTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('发现'), centerTitle: true),
-      body: const Center(child: Text('发现内容', style: TextStyle(fontSize: 24))),
+      appBar: AppBar(title: const Text('Discover'), centerTitle: true),
+      body: const Center(child: Text('Discover Content', style: TextStyle(fontSize: 24))),
     );
   }
 }

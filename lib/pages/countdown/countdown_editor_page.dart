@@ -31,7 +31,7 @@ class _CountdownEditorPageState extends State<CountdownEditorPage> {
       initialDate: _selectedDate,
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
-      locale: const Locale('zh', 'CN'),
+      locale: const Locale('en', 'US'),
     );
     if (picked != null) {
       setState(() {
@@ -43,7 +43,7 @@ class _CountdownEditorPageState extends State<CountdownEditorPage> {
   Future<void> _save() async {
     final title = _titleController.text.trim();
     if (title.isEmpty) {
-      ToastUtil.show('请输入事件名称');
+      ToastUtil.show('Please enter event name');
       return;
     }
 
@@ -58,7 +58,7 @@ class _CountdownEditorPageState extends State<CountdownEditorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: const AppAppBar(titleText: '添加事件'),
+      appBar: const AppAppBar(titleText: 'Add Event'),
       body: Column(
         children: [
           Expanded(
@@ -69,7 +69,7 @@ class _CountdownEditorPageState extends State<CountdownEditorPage> {
                 children: [
                   // 事件名称
                   AppText(
-                    '事件名称',
+                    'Event Name',
                     fontSize: 14.sp,
                     fontWeight: AppFontWeights.medium,
                     color: AppColors.textSecondary,
@@ -88,7 +88,7 @@ class _CountdownEditorPageState extends State<CountdownEditorPage> {
                         color: AppColors.textPrimary,
                       ),
                       decoration: InputDecoration(
-                        hintText: '例如：春节',
+                        hintText: 'e.g. New Year',
                         hintStyle: TextStyle(
                           fontSize: 16.sp,
                           color: AppColors.textHint,
@@ -106,7 +106,7 @@ class _CountdownEditorPageState extends State<CountdownEditorPage> {
 
                   // 目标日期
                   AppText(
-                    '目标日期',
+                    'Target Date',
                     fontSize: 14.sp,
                     fontWeight: AppFontWeights.medium,
                     color: AppColors.textSecondary,
@@ -165,7 +165,7 @@ class _CountdownEditorPageState extends State<CountdownEditorPage> {
           ),
 
           // 底部确定按钮
-          BottomConfirmButton(text: '确定', onTap: _save),
+          BottomConfirmButton(text: 'Confirm', onTap: _save),
         ],
       ),
     );
@@ -173,7 +173,7 @@ class _CountdownEditorPageState extends State<CountdownEditorPage> {
 
   Widget _buildPreviewCard() {
     final title = _titleController.text.isEmpty
-        ? '事件名称'
+        ? 'Event Name'
         : _titleController.text;
     final now = DateTime.now();
     final target = DateTime(
@@ -204,7 +204,7 @@ class _CountdownEditorPageState extends State<CountdownEditorPage> {
               borderRadius: BorderRadius.vertical(top: Radius.circular(11.r)),
             ),
             child: AppText(
-              isFuture ? '$title还有' : '$title已经',
+              isFuture ? '$title in' : '$title ago',
               fontSize: 16.sp,
               fontWeight: AppFontWeights.medium,
               color: AppColors.textWhite,
@@ -222,7 +222,7 @@ class _CountdownEditorPageState extends State<CountdownEditorPage> {
                 ),
                 SizedBox(height: 4.h),
                 AppText(
-                  '日期: ${_formatDate(_selectedDate)}',
+                  'Date: ${_formatDate(_selectedDate)}',
                   fontSize: 14.sp,
                   color: AppColors.textSecondary,
                 ),

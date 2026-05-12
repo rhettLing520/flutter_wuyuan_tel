@@ -53,12 +53,12 @@ class _DiaryEditorPageState extends State<DiaryEditorPage> {
     final content = _contentController.text.trim();
 
     if (title.isEmpty) {
-      ToastUtil.show("请输入日记标题");
+      ToastUtil.show("Please enter a title");
       return;
     }
 
     if (content.isEmpty && _images.isEmpty) {
-      ToastUtil.show("请输入内容");
+      ToastUtil.show("Please enter some content");
       return;
     }
 
@@ -87,16 +87,16 @@ class _DiaryEditorPageState extends State<DiaryEditorPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const AppText('删除日记'),
-          content: const AppText('确定要删除这篇日记吗？'),
+          title: const AppText('Delete Diary'),
+          content: const AppText('Are you sure you want to delete this diary?'),
           actions: [
             TextButton(
               onPressed: () => Get.back(result: false),
-              child: const AppText('取消'),
+              child: const AppText('Cancel'),
             ),
             TextButton(
               onPressed: () => Get.back(result: true),
-              child: const AppText('删除', color: AppColors.error),
+              child: const AppText('Delete', color: AppColors.error),
             ),
           ],
         );
@@ -113,7 +113,7 @@ class _DiaryEditorPageState extends State<DiaryEditorPage> {
 
   Future<void> _pickImages() async {
     if (_images.length >= 9) {
-      ToastUtil.show('最多只能添加9张图片');
+      ToastUtil.show('Maximum 9 images allowed');
       return;
     }
 
@@ -144,13 +144,13 @@ class _DiaryEditorPageState extends State<DiaryEditorPage> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppAppBar(
-        titleText: _isEditing ? '编辑记录' : '添加记录',
+        titleText: _isEditing ? 'Edit Entry' : 'New Entry',
         actions: [
           if (_isEditing)
             IconButton(
               onPressed: _delete,
               icon: const Icon(Icons.delete_outline, color: AppColors.error),
-              tooltip: '删除',
+              tooltip: 'Delete',
             ),
         ],
       ),
@@ -164,7 +164,7 @@ class _DiaryEditorPageState extends State<DiaryEditorPage> {
                 children: [
                   // 标题输入
                   AppText(
-                    '标题',
+                    'Title',
                     fontSize: 14.sp,
                     fontWeight: AppFontWeights.medium,
                     color: AppColors.textSecondary,
@@ -184,7 +184,7 @@ class _DiaryEditorPageState extends State<DiaryEditorPage> {
                         color: AppColors.textPrimary,
                       ),
                       decoration: InputDecoration(
-                        hintText: '我是标题',
+                        hintText: 'Enter title',
                         hintStyle: TextStyle(
                           fontSize: 16.sp,
                           color: AppColors.textHint,
@@ -202,7 +202,7 @@ class _DiaryEditorPageState extends State<DiaryEditorPage> {
 
                   // 内容输入
                   AppText(
-                    '记录内容',
+                    'Content',
                     fontSize: 14.sp,
                     fontWeight: AppFontWeights.medium,
                     color: AppColors.textSecondary,
@@ -224,7 +224,7 @@ class _DiaryEditorPageState extends State<DiaryEditorPage> {
                         height: 1.5,
                       ),
                       decoration: InputDecoration(
-                        hintText: '记录这一刻的想法...',
+                        hintText: 'Write your thoughts...',
                         hintStyle: TextStyle(
                           fontSize: 16.sp,
                           color: AppColors.textHint,
@@ -242,7 +242,7 @@ class _DiaryEditorPageState extends State<DiaryEditorPage> {
 
                   // 添加图片
                   AppText(
-                    '添加图片',
+                    'Add Photos',
                     fontSize: 14.sp,
                     fontWeight: AppFontWeights.medium,
                     color: AppColors.textSecondary,
@@ -269,7 +269,7 @@ class _DiaryEditorPageState extends State<DiaryEditorPage> {
           ),
 
           // 底部确定按钮
-          BottomConfirmButton(text: '确定', onTap: _save),
+          BottomConfirmButton(text: 'Confirm', onTap: _save),
         ],
       ),
     );
@@ -296,7 +296,7 @@ class _DiaryEditorPageState extends State<DiaryEditorPage> {
               color: AppColors.textHint,
             ),
             SizedBox(height: 4.h),
-            AppText('上传', fontSize: 12.sp, color: AppColors.textHint),
+            AppText('Upload', fontSize: 12.sp, color: AppColors.textHint),
           ],
         ),
       ),

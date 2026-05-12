@@ -21,7 +21,7 @@ class ContactUsPage extends StatelessWidget {
       if (!hasAccess) {
         final granted = await Gal.requestAccess(toAlbum: true);
         if (!granted) {
-          ToastUtil.show('需要相册权限才能保存图片');
+          ToastUtil.show('Photo library permission required');
           return;
         }
       }
@@ -39,9 +39,9 @@ class ContactUsPage extends StatelessWidget {
 
       // 保存到相册
       await Gal.putImage(file.path, album: 'SecretChat');
-      ToastUtil.show('已保存至相册');
+      ToastUtil.show('Saved to album');
     } catch (e) {
-      ToastUtil.show('保存失败，请重试');
+      ToastUtil.show('Save failed, please try again');
     }
   }
 
@@ -49,7 +49,7 @@ class ContactUsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: const AppAppBar(titleText: '联系我们'),
+      appBar: const AppAppBar(titleText: 'Contact Us'),
       body: Column(
         children: [
           Expanded(
@@ -79,7 +79,7 @@ class ContactUsPage extends StatelessWidget {
 
                         // 客服群标题
                         AppText(
-                          '客服群',
+                          'Customer Service',
                           fontSize: 16.sp,
                           fontWeight: AppFontWeights.semiBold,
                           color: AppColors.textPrimary,
@@ -110,7 +110,7 @@ class ContactUsPage extends StatelessWidget {
 
                         // 提示文字
                         AppText(
-                          '敬请保存二维码至相册，使用QQ扫一扫',
+                          'Please save the QR code to your album and scan it with QQ',
                           fontSize: 13.sp,
                           color: AppColors.textSecondary,
                           textAlign: TextAlign.center,
@@ -119,20 +119,20 @@ class ContactUsPage extends StatelessWidget {
 
                         // 客服在线时间
                         AppText(
-                          '客服在线时间：',
+                          'Online Hours:',
                           fontSize: 14.sp,
                           fontWeight: AppFontWeights.medium,
                           color: AppColors.textPrimary,
                         ),
                         SizedBox(height: 4.h),
                         AppText(
-                          '工作日：10:00-18:00',
+                          'Weekdays: 10:00-18:00',
                           fontSize: 14.sp,
                           color: AppColors.textPrimary,
                         ),
                         SizedBox(height: 4.h),
                         AppText(
-                          '其他时间请留言，客服将在上班的第一时间答复您。',
+                          'Please leave a message outside of business hours. We will respond as soon as possible.',
                           fontSize: 12.sp,
                           color: AppColors.textSecondary,
                           textAlign: TextAlign.center,
@@ -161,7 +161,7 @@ class ContactUsPage extends StatelessWidget {
           ),
 
           // 底部保存按钮
-          BottomConfirmButton(text: '保存至相册', onTap: _saveToGallery),
+          BottomConfirmButton(text: 'Save to Album', onTap: _saveToGallery),
         ],
       ),
     );

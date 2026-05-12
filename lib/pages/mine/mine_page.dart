@@ -29,14 +29,14 @@ class MinePage extends StatelessWidget {
                 child: Column(
                   children: [
                     _buildMenuItem(
-                      title: '用户协议',
+                      title: 'Terms of Service',
                       onTap: () => NavigationService.toWebView(
                         AppConstants.userAgreementUrl,
                       ),
                     ),
 
                     _buildMenuItem(
-                      title: '隐私政策',
+                      title: 'Privacy Policy',
                       onTap: () =>
                           NavigationService.toWebView(AppConstants.privacyUrl),
                     ),
@@ -48,7 +48,7 @@ class MinePage extends StatelessWidget {
                     // ),
                     // _buildMenuItem(title: '分享好友', onTap: () {}),
                     _buildMenuItem(
-                      title: '联系我们',
+                      title: 'Contact Us',
                       onTap: () => Get.to(() => const ContactUsPage()),
                     ),
                   ],
@@ -86,7 +86,7 @@ class MinePage extends StatelessWidget {
           // 用户名
           Expanded(
             child: AppText(
-              '游客登录',
+              'Guest',
               fontSize: 20.sp,
               fontWeight: AppFontWeights.medium,
               color: AppColors.textPrimary,

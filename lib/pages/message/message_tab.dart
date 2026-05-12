@@ -29,7 +29,7 @@ class _MessageTabState extends State<MessageTab> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: const AppAppBar(
-        titleText: '日记本',
+        titleText: 'Diary',
         automaticallyImplyLeading: false,
       ),
       body: StreamBuilder(
@@ -49,14 +49,14 @@ class _MessageTabState extends State<MessageTab> {
                   ),
                   SizedBox(height: 16.h),
                   AppText(
-                    '还没有日记',
+                    'No diary entries yet',
                     fontSize: 16.sp,
                     fontWeight: AppFontWeights.medium,
                     color: AppColors.textSecondary,
                   ),
                   SizedBox(height: 8.h),
                   AppText(
-                    '点击右下角 + 写下第一篇日记',
+                    'Tap + to write your first diary',
                     fontSize: 14.sp,
                     color: AppColors.textHint,
                   ),

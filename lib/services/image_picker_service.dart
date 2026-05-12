@@ -25,8 +25,8 @@ class ImagePickerService extends GetxService {
     final hasPermission = await PermissionService.to.requestPhotosPermission();
     if (!hasPermission) {
       Get.snackbar(
-        '权限错误',
-        '需要相册权限才能选择图片',
+        'Permission Error',
+        'Photos permission required to select images',
         snackPosition: SnackPosition.BOTTOM,
       );
       return [];
@@ -56,8 +56,8 @@ class ImagePickerService extends GetxService {
       }
     } catch (e) {
       Get.snackbar(
-        '错误',
-        '选择图片失败: $e',
+        'Error',
+        'Failed to select image: $e',
         snackPosition: SnackPosition.BOTTOM,
       );
       return [];
@@ -72,8 +72,8 @@ class ImagePickerService extends GetxService {
     final hasPermission = await PermissionService.to.requestCameraPermission();
     if (!hasPermission) {
       Get.snackbar(
-        '权限错误',
-        '需要相机权限才能拍照',
+        'Permission Error',
+        'Camera permission required',
         snackPosition: SnackPosition.BOTTOM,
       );
       return null;
@@ -89,8 +89,8 @@ class ImagePickerService extends GetxService {
       return image?.path;
     } catch (e) {
       Get.snackbar(
-        '错误',
-        '拍照失败: $e',
+        'Error',
+        'Failed to take photo: $e',
         snackPosition: SnackPosition.BOTTOM,
       );
       return null;
@@ -113,12 +113,12 @@ class ImagePickerService extends GetxService {
           children: [
             ListTile(
               leading: const Icon(Icons.camera_alt),
-              title: const Text('拍照'),
+              title: const Text('Camera'),
               onTap: () => Get.back(result: 'camera'),
             ),
             ListTile(
               leading: const Icon(Icons.photo_library),
-              title: const Text('从相册选择'),
+              title: const Text('Gallery'),
               onTap: () => Get.back(result: 'gallery'),
             ),
           ],
@@ -153,8 +153,8 @@ class ImagePickerService extends GetxService {
       return false;
     } catch (e) {
       Get.snackbar(
-        '错误',
-        '删除图片失败: $e',
+        'Error',
+        'Failed to delete image: $e',
         snackPosition: SnackPosition.BOTTOM,
       );
       return false;

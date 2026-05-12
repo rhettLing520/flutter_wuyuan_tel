@@ -24,7 +24,7 @@ class _CountdownListPageState extends State<CountdownListPage> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppAppBar(
-        titleText: '倒数日',
+        titleText: 'Countdown',
         automaticallyImplyLeading: false,
       ),
       body: StreamBuilder<BoxEvent>(
@@ -66,9 +66,9 @@ class _CountdownListPageState extends State<CountdownListPage> {
             color: AppColors.textHint,
           ),
           SizedBox(height: 16.h),
-          AppText('暂无倒数日', fontSize: 16.sp, color: AppColors.textHint),
+          AppText('No countdowns yet', fontSize: 16.sp, color: AppColors.textHint),
           SizedBox(height: 8.h),
-          AppText('点击右上角 + 添加', fontSize: 14.sp, color: AppColors.textHint),
+          AppText('Tap + to add one', fontSize: 14.sp, color: AppColors.textHint),
         ],
       ),
     );
@@ -102,10 +102,10 @@ class _CountdownListPageState extends State<CountdownListPage> {
             Expanded(
               child: AppText(
                 isToday
-                    ? '${event.title}就是今天'
+                    ? '${event.title} is today'
                     : isFuture
-                    ? '${event.title}还有'
-                    : '${event.title}已经',
+                    ? '${event.title} in'
+                    : '${event.title} ago',
                 fontSize: 16.sp,
                 color: AppColors.textPrimary,
               ),
@@ -120,7 +120,7 @@ class _CountdownListPageState extends State<CountdownListPage> {
               ),
               SizedBox(width: 2.w),
               AppText(
-                '天',
+                'days',
                 fontSize: 16.sp,
                 fontWeight: AppFontWeights.bold,
                 color: dayColor,

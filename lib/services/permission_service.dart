@@ -29,14 +29,14 @@ class PermissionService extends GetxService {
     if (status.isPermanentlyDenied) {
       return _handlePermanentlyDenied(
         permission,
-        rationaleMessage ?? '请在设置中开启相关权限',
+        rationaleMessage ?? 'Please enable permission in Settings',
       );
     }
 
     // 显示权限说明
     if (showRationale && status.isDenied) {
       final shouldRequest = await _showRationaleDialog(
-        rationaleMessage ?? '需要${_getPermissionName(permission)}权限才能继续使用此功能',
+        rationaleMessage ?? '${_getPermissionName(permission)} permission is required',
       );
       if (!shouldRequest) return false;
     }
@@ -99,16 +99,16 @@ class PermissionService extends GetxService {
   ) async {
     final shouldOpenSettings = await Get.dialog<bool>(
       AlertDialog(
-        title: const Text('权限被永久拒绝'),
+        title: const Text('Permission Denied'),
         content: Text(message),
         actions: [
           TextButton(
             onPressed: () => Get.back(result: false),
-            child: const Text('取消'),
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () => Get.back(result: true),
-            child: const Text('去设置'),
+            child: const Text('Settings'),
           ),
         ],
       ),
@@ -124,16 +124,16 @@ class PermissionService extends GetxService {
   Future<bool> _showRationaleDialog(String message) async {
     return await Get.dialog<bool>(
       AlertDialog(
-        title: const Text('需要权限'),
+        title: const Text('Permission Required'),
         content: Text(message),
         actions: [
           TextButton(
             onPressed: () => Get.back(result: false),
-            child: const Text('取消'),
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () => Get.back(result: true),
-            child: const Text('授权'),
+            child: const Text('Grant'),
           ),
         ],
       ),
@@ -144,19 +144,19 @@ class PermissionService extends GetxService {
   String _getPermissionName(perm_handler.Permission permission) {
     switch (permission) {
       case perm_handler.Permission.camera:
-        return '相机';
+        return 'Camera';
       case perm_handler.Permission.photos:
-        return '相册';
+        return 'Photos';
       case perm_handler.Permission.storage:
-        return '存储';
+        return 'Storage';
       case perm_handler.Permission.location:
-        return '位置';
+        return 'Location';
       case perm_handler.Permission.microphone:
-        return '麦克风';
+        return 'Microphone';
       case perm_handler.Permission.notification:
-        return '通知';
+        return 'Notification';
       default:
-        return '相关';
+        return 'Required';
     }
   }
 

@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
           Locale('zh', 'CN'),
           Locale('en', 'US'),
         ],
-        locale: const Locale('zh', 'CN'),
+        locale: const Locale('en', 'US'),
         initialRoute: AppRoutes.splash,
         getPages: AppPages.pages,
         debugShowCheckedModeBanner: false,

@@ -11,7 +11,7 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppAppBar(titleText: '关于我们'),
+      appBar: const AppAppBar(titleText: 'About'),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -64,14 +64,14 @@ class AboutPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText(
-                    '应用介绍',
+                    'About App',
                     fontSize: 18.sp,
                     fontWeight: AppFontWeights.semiBold,
                     color: AppColors.textPrimary,
                   ),
                   SizedBox(height: 12.h),
                   AppText(
-                    '这是一款优秀的移动应用，致力于为用户提供便捷、高效的服务体验。我们持续优化产品功能，不断提升用户满意度。',
+                    'This is an excellent mobile app dedicated to providing users with a convenient and efficient experience. We continuously optimize features to improve user satisfaction.',
                     fontSize: 14.sp,
                     color: AppColors.textPrimary,
                     height: 1.8,
@@ -101,17 +101,17 @@ class AboutPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText(
-                    '联系我们',
+                    'Contact Us',
                     fontSize: 18.sp,
                     fontWeight: AppFontWeights.semiBold,
                     color: AppColors.textPrimary,
                   ),
                   SizedBox(height: 12.h),
-                  _buildContactItem(Icons.email, '邮箱', 'contact@example.com'),
+                  _buildContactItem(Icons.email, 'Email', 'contact@example.com'),
                   SizedBox(height: 8.h),
-                  _buildContactItem(Icons.phone, '电话', '400-xxx-xxxx'),
+                  _buildContactItem(Icons.phone, 'Phone', '400-xxx-xxxx'),
                   SizedBox(height: 8.h),
-                  _buildContactItem(Icons.location_on, '地址', '北京市朝阳区xxx路xxx号'),
+                  _buildContactItem(Icons.location_on, 'Address', '北京市朝阳区xxx路xxx号'),
                 ],
               ),
             ),
@@ -142,7 +142,7 @@ class AboutPage extends StatelessWidget {
         Icon(icon, size: 18.w, color: AppColors.textSecondary),
         SizedBox(width: 8.w),
         AppText(
-          '$label：',
+          '$label: ',
           fontSize: 14.sp,
           color: AppColors.textSecondary,
         ),
