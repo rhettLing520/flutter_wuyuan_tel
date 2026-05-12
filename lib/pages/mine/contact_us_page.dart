@@ -133,7 +133,7 @@ class ContactUsPage extends StatelessWidget {
                         ),
                         SizedBox(height: 4.h),
                         AppText(
-                          '其他时间请留言，客服将在上班的第一时间回复。',
+                          '其他时间请留言，客服将在上班的第一时间答复您。',
                           fontSize: 12.sp,
                           color: AppColors.textSecondary,
                           textAlign: TextAlign.center,
