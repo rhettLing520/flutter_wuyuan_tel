@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'permission_service.dart';
 
 /// 图片选择服务
 /// 封装图片选择、压缩和管理功能
@@ -12,8 +11,16 @@ class ImagePickerService extends GetxService {
 
   final ImagePicker _picker = ImagePicker();
 
+  /// 请求权限，返回是否已授权
+  Future<bool> _requestPermission(Permission permission) async {
+    final status = await permission.status;
+    if (status.isGranted || status.isLimited) return true;
+    final result = await permission.request();
+    return result.isGranted || result.isLimited;
+  }
+
   /// 从相册选择图片
-  /// 
+  ///
   /// [maxImages] 最大选择图片数量，默认为9
   /// [allowMultiple] 是否允许多选，默认为false
   /// 返回选择的图片路径列表
@@ -21,8 +28,7 @@ class ImagePickerService extends GetxService {
     int maxImages = 9,
     bool allowMultiple = false,
   }) async {
-    // 请求相册权限
-    final hasPermission = await PermissionService.to.requestPhotosPermission();
+    final hasPermission = await _requestPermission(Permission.photos);
     if (!hasPermission) {
       Get.snackbar(
         'Permission Error',
@@ -65,11 +71,10 @@ class ImagePickerService extends GetxService {
   }
 
   /// 从相机拍照
-  /// 
+  ///
   /// 返回拍照后的图片路径
   Future<String?> takePhoto() async {
-    // 请求相机权限
-    final hasPermission = await PermissionService.to.requestCameraPermission();
+    final hasPermission = await _requestPermission(Permission.camera);
     if (!hasPermission) {
       Get.snackbar(
         'Permission Error',
@@ -98,7 +103,7 @@ class ImagePickerService extends GetxService {
   }
 
   /// 显示图片选择对话框
-  /// 
+  ///
   /// [allowMultiple] 是否允许多选
   /// [maxImages] 最大选择图片数量
   /// 返回选择的图片路径列表
