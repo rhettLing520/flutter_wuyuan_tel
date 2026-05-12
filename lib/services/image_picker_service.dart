@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 /// 图片选择服务
 /// 封装图片选择、压缩和管理功能
@@ -10,14 +9,6 @@ class ImagePickerService extends GetxService {
   static ImagePickerService get to => Get.find();
 
   final ImagePicker _picker = ImagePicker();
-
-  /// 请求权限，返回是否已授权
-  Future<bool> _requestPermission(Permission permission) async {
-    final status = await permission.status;
-    if (status.isGranted || status.isLimited) return true;
-    final result = await permission.request();
-    return result.isGranted || result.isLimited;
-  }
 
   /// 从相册选择图片
   ///
@@ -28,16 +19,6 @@ class ImagePickerService extends GetxService {
     int maxImages = 9,
     bool allowMultiple = false,
   }) async {
-    final hasPermission = await _requestPermission(Permission.photos);
-    if (!hasPermission) {
-      Get.snackbar(
-        'Permission Error',
-        'Photos permission required to select images',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-      return [];
-    }
-
     try {
       if (allowMultiple) {
         // 多选图片
@@ -74,16 +55,6 @@ class ImagePickerService extends GetxService {
   ///
   /// 返回拍照后的图片路径
   Future<String?> takePhoto() async {
-    final hasPermission = await _requestPermission(Permission.camera);
-    if (!hasPermission) {
-      Get.snackbar(
-        'Permission Error',
-        'Camera permission required',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-      return null;
-    }
-
     try {
       final image = await _picker.pickImage(
         source: ImageSource.camera,
