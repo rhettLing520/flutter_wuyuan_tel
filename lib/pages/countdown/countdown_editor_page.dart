@@ -151,14 +151,14 @@ class _CountdownEditorPageState extends State<CountdownEditorPage> {
                   SizedBox(height: 20.h),
 
                   // 预览
-                  AppText(
-                    '预览',
-                    fontSize: 14.sp,
-                    fontWeight: AppFontWeights.medium,
-                    color: AppColors.textSecondary,
-                  ),
-                  SizedBox(height: 8.h),
-                  _buildPreviewCard(),
+                  // AppText(
+                  //   '预览',
+                  //   fontSize: 14.sp,
+                  //   fontWeight: AppFontWeights.medium,
+                  //   color: AppColors.textSecondary,
+                  // ),
+                  // SizedBox(height: 8.h),
+                  // _buildPreviewCard(),
                 ],
               ),
             ),

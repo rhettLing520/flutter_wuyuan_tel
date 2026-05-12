@@ -8,7 +8,6 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../core/constants/common_export.dart';
 import '../../core/utils/toast_util.dart';
-import '../../services/permission_service.dart';
 import '../../widgets/app_app_bar.dart';
 import '../../widgets/common_button.dart';
 
@@ -16,17 +15,17 @@ class ContactUsPage extends StatelessWidget {
   const ContactUsPage({super.key});
 
   Future<void> _saveToGallery() async {
-    // 请求相册/存储权限
-    final hasPermission = Platform.isIOS
-        ? await PermissionService.to.requestPhotosPermission()
-        : await PermissionService.to.requestStoragePermission();
-
-    if (!hasPermission) {
-      ToastUtil.show('需要相册权限才能保存图片');
-      return;
-    }
-
     try {
+      // 通过 gal 直接检查和请求相册权限（自带系统弹框）
+      final hasAccess = await Gal.hasAccess(toAlbum: true);
+      if (!hasAccess) {
+        final granted = await Gal.requestAccess(toAlbum: true);
+        if (!granted) {
+          ToastUtil.show('需要相册权限才能保存图片');
+          return;
+        }
+      }
+
       // 从 asset 读取图片字节
       final byteData = await rootBundle.load(
         AppImages.getAssetsPath('contact_us_qq_code'),

@@ -119,7 +119,7 @@ class CountdownDetailPage extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const AppText('移除事件'),
+          title: const AppText('移除事件', textAlign: TextAlign.center),
           content: const AppText('确定要从日程中移除这个事件吗？'),
           actions: [
             TextButton(
