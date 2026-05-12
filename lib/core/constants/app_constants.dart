@@ -19,7 +19,7 @@ class AppConstants {
   // H5链接
 
   static const String baseH5Url = 'https://api.example.com';
-  static const String privacyUrl = 'https://www.baidu.com';
-  static const String userAgreementUrl = 'https://www.baidu.com';
+  static const String privacyUrl = 'https://ww7emq8pji1.feishu.cn/wiki/LvMJwNY90iCJuTkQjnQcP2OVnUf?from=from_copylink';
+  static const String userAgreementUrl = 'https://ww7emq8pji1.feishu.cn/wiki/QJYTws52lir0IrkGORgcV5jmnKf?from=from_copylink';
   static const String commonH5Url = 'https://www.baidu.com';
 }
