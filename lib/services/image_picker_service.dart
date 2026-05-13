@@ -24,12 +24,11 @@ class ImagePickerService extends GetxService {
     int maxImages = 9,
     bool allowMultiple = false,
   }) async {
-    // 首次相册权限温馨提示
     final canContinue = await PermissionHintUtil.showGalleryHint();
     if (!canContinue) return [];
 
     try {
-      final hasPermission = await _ensureGalleryPermission();
+      final hasPermission = await requestGalleryPermission();
       if (!hasPermission) {
         return [];
       }
@@ -81,12 +80,11 @@ class ImagePickerService extends GetxService {
   ///
   /// 返回拍照后的图片路径
   Future<String?> takePhoto() async {
-    // 首次相机权限温馨提示
     final canContinue = await PermissionHintUtil.showCameraHint();
     if (!canContinue) return null;
 
     try {
-      final hasPermission = await _ensureCameraPermission();
+      final hasPermission = await requestCameraPermission();
       if (!hasPermission) {
         return null;
       }
@@ -126,15 +124,15 @@ class ImagePickerService extends GetxService {
   static const String _galleryPermissionMessage =
       'Photo library access is required so you can choose photos and attach them to diary entries. Please enable photo access in Settings.';
 
-  Future<bool> _ensureCameraPermission() async {
-    return _ensurePermission(
+  Future<bool> requestCameraPermission() async {
+    return _requestPermission(
       permission_handler.Permission.camera,
       _cameraPermissionMessage,
     );
   }
 
-  Future<bool> _ensureGalleryPermission() async {
-    final photosGranted = await _ensurePermission(
+  Future<bool> requestGalleryPermission() async {
+    final photosGranted = await _requestPermission(
       permission_handler.Permission.photos,
       _galleryPermissionMessage,
       showSettingsDialog: false,
@@ -144,7 +142,7 @@ class ImagePickerService extends GetxService {
     }
 
     if (Platform.isAndroid) {
-      final storageGranted = await _ensurePermission(
+      final storageGranted = await _requestPermission(
         permission_handler.Permission.storage,
         _galleryPermissionMessage,
         showSettingsDialog: false,
@@ -158,7 +156,7 @@ class ImagePickerService extends GetxService {
     return false;
   }
 
-  Future<bool> _ensurePermission(
+  Future<bool> _requestPermission(
     permission_handler.Permission permission,
     String message, {
     bool showSettingsDialog = true,
@@ -169,7 +167,7 @@ class ImagePickerService extends GetxService {
       return true;
     }
 
-    if (status.isPermanentlyDenied || status.isRestricted) {
+    if (status.isRestricted || status.isPermanentlyDenied) {
       if (showSettingsDialog) {
         await _showPermissionSettingsDialog(message);
       }
