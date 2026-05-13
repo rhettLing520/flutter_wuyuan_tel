@@ -1,7 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart'
+    as permission_handler;
+
+import '../core/utils/permission_hint_util.dart';
 
 /// 图片选择服务
 /// 封装图片选择、压缩和管理功能
@@ -19,7 +24,16 @@ class ImagePickerService extends GetxService {
     int maxImages = 9,
     bool allowMultiple = false,
   }) async {
+    // 首次相册权限温馨提示
+    final canContinue = await PermissionHintUtil.showGalleryHint();
+    if (!canContinue) return [];
+
     try {
+      final hasPermission = await _ensureGalleryPermission();
+      if (!hasPermission) {
+        return [];
+      }
+
       if (allowMultiple) {
         // 多选图片
         final images = await _picker.pickMultiImage(
@@ -41,6 +55,18 @@ class ImagePickerService extends GetxService {
         );
         return image != null ? [image.path] : [];
       }
+    } on PlatformException catch (e) {
+      if (_isPermissionException(e)) {
+        await _showPermissionSettingsDialog(_galleryPermissionMessage);
+        return [];
+      }
+
+      Get.snackbar(
+        'Error',
+        'Failed to select image: ${e.message ?? e.code}',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return [];
     } catch (e) {
       Get.snackbar(
         'Error',
@@ -55,7 +81,16 @@ class ImagePickerService extends GetxService {
   ///
   /// 返回拍照后的图片路径
   Future<String?> takePhoto() async {
+    // 首次相机权限温馨提示
+    final canContinue = await PermissionHintUtil.showCameraHint();
+    if (!canContinue) return null;
+
     try {
+      final hasPermission = await _ensureCameraPermission();
+      if (!hasPermission) {
+        return null;
+      }
+
       final image = await _picker.pickImage(
         source: ImageSource.camera,
         imageQuality: 85,
@@ -63,6 +98,18 @@ class ImagePickerService extends GetxService {
         maxHeight: 1920,
       );
       return image?.path;
+    } on PlatformException catch (e) {
+      if (_isPermissionException(e)) {
+        await _showPermissionSettingsDialog(_cameraPermissionMessage);
+        return null;
+      }
+
+      Get.snackbar(
+        'Error',
+        'Failed to take photo: ${e.message ?? e.code}',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return null;
     } catch (e) {
       Get.snackbar(
         'Error',
@@ -71,6 +118,105 @@ class ImagePickerService extends GetxService {
       );
       return null;
     }
+  }
+
+  static const String _cameraPermissionMessage =
+      'Camera access is required so you can take photos and attach them to diary entries. Please enable camera access in Settings.';
+
+  static const String _galleryPermissionMessage =
+      'Photo library access is required so you can choose photos and attach them to diary entries. Please enable photo access in Settings.';
+
+  Future<bool> _ensureCameraPermission() async {
+    return _ensurePermission(
+      permission_handler.Permission.camera,
+      _cameraPermissionMessage,
+    );
+  }
+
+  Future<bool> _ensureGalleryPermission() async {
+    final photosGranted = await _ensurePermission(
+      permission_handler.Permission.photos,
+      _galleryPermissionMessage,
+      showSettingsDialog: false,
+    );
+    if (photosGranted) {
+      return true;
+    }
+
+    if (Platform.isAndroid) {
+      final storageGranted = await _ensurePermission(
+        permission_handler.Permission.storage,
+        _galleryPermissionMessage,
+        showSettingsDialog: false,
+      );
+      if (storageGranted) {
+        return true;
+      }
+    }
+
+    await _showPermissionSettingsDialog(_galleryPermissionMessage);
+    return false;
+  }
+
+  Future<bool> _ensurePermission(
+    permission_handler.Permission permission,
+    String message, {
+    bool showSettingsDialog = true,
+  }) async {
+    final status = await permission.status;
+
+    if (status.isGranted || status.isLimited) {
+      return true;
+    }
+
+    if (status.isPermanentlyDenied || status.isRestricted) {
+      if (showSettingsDialog) {
+        await _showPermissionSettingsDialog(message);
+      }
+      return false;
+    }
+
+    final requestedStatus = await permission.request();
+    if (requestedStatus.isGranted || requestedStatus.isLimited) {
+      return true;
+    }
+
+    if (showSettingsDialog) {
+      await _showPermissionSettingsDialog(message);
+    }
+    return false;
+  }
+
+  Future<void> _showPermissionSettingsDialog(String message) async {
+    final shouldOpenSettings = await Get.dialog<bool>(
+      AlertDialog(
+        title: const Text('Permission Required'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(result: false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Get.back(result: true),
+            child: const Text('Settings'),
+          ),
+        ],
+      ),
+    );
+
+    if (shouldOpenSettings == true) {
+      await permission_handler.openAppSettings();
+    }
+  }
+
+  bool _isPermissionException(PlatformException exception) {
+    final code = exception.code.toLowerCase();
+    final message = exception.message?.toLowerCase() ?? '';
+    return code.contains('permission') ||
+        code.contains('denied') ||
+        message.contains('permission') ||
+        message.contains('denied');
   }
 
   /// 显示图片选择对话框
@@ -116,7 +262,7 @@ class ImagePickerService extends GetxService {
   }
 
   /// 删除图片
-  /// 
+  ///
   /// [imagePath] 图片路径
   /// 返回是否删除成功
   Future<bool> deleteImage(String imagePath) async {
@@ -138,7 +284,7 @@ class ImagePickerService extends GetxService {
   }
 
   /// 批量删除图片
-  /// 
+  ///
   /// [imagePaths] 图片路径列表
   /// 返回删除成功的数量
   Future<int> deleteImages(List<String> imagePaths) async {
@@ -152,7 +298,7 @@ class ImagePickerService extends GetxService {
   }
 
   /// 检查图片是否存在
-  /// 
+  ///
   /// [imagePath] 图片路径
   Future<bool> imageExists(String imagePath) async {
     try {

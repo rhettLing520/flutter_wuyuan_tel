@@ -53,6 +53,27 @@ class StorageService extends GetxService {
     return _prefs.getBool('first_launch') ?? true;
   }
 
+  // 权限温馨提示是否已展示（三个独立标记）
+  Future<bool> _setPermissionHintShown(String key, bool value) async {
+    return await _prefs.setBool(key, value);
+  }
+
+  bool _isPermissionHintShown(String key) {
+    return _prefs.getBool(key) ?? false;
+  }
+
+  // 相机权限温馨提示
+  bool isCameraHintShown() => _isPermissionHintShown('hint_camera');
+  Future<bool> setCameraHintShown() => _setPermissionHintShown('hint_camera', true);
+
+  // 相册权限温馨提示
+  bool isGalleryHintShown() => _isPermissionHintShown('hint_gallery');
+  Future<bool> setGalleryHintShown() => _setPermissionHintShown('hint_gallery', true);
+
+  // 保存到相册权限温馨提示
+  bool isSaveToAlbumHintShown() => _isPermissionHintShown('hint_save_album');
+  Future<bool> setSaveToAlbumHintShown() => _setPermissionHintShown('hint_save_album', true);
+
   // 清除所有数据
   Future<bool> clearAll() async {
     return await _prefs.clear();

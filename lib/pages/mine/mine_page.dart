@@ -62,6 +62,7 @@ class MinePage extends StatelessWidget {
   }
 
   Widget _buildHeader() {
+    return Container( width: double.infinity,height: 100.h,);
     return Container(
       width: double.infinity,
       padding: EdgeInsets.fromLTRB(24.w, 60.h, 24.w, 24.h),

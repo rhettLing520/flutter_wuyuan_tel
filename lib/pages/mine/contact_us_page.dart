@@ -4,9 +4,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gal/gal.dart';
+import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../core/constants/common_export.dart';
+import '../../core/utils/permission_hint_util.dart';
 import '../../core/utils/toast_util.dart';
 import '../../widgets/app_app_bar.dart';
 import '../../widgets/common_button.dart';
@@ -15,15 +18,14 @@ class ContactUsPage extends StatelessWidget {
   const ContactUsPage({super.key});
 
   Future<void> _saveToGallery() async {
+    // 首次保存到相册权限温馨提示
+    final canContinue = await PermissionHintUtil.showSaveToAlbumHint();
+    if (!canContinue) return;
+
     try {
-      // 通过 gal 直接检查和请求相册权限（自带系统弹框）
-      final hasAccess = await Gal.hasAccess(toAlbum: true);
+      final hasAccess = await _ensurePhotoLibraryAccess();
       if (!hasAccess) {
-        final granted = await Gal.requestAccess(toAlbum: true);
-        if (!granted) {
-          ToastUtil.show('Photo library permission required');
-          return;
-        }
+        return;
       }
 
       // 从 asset 读取图片字节
@@ -40,8 +42,53 @@ class ContactUsPage extends StatelessWidget {
       // 保存到相册
       await Gal.putImage(file.path, album: 'SecretChat');
       ToastUtil.show('Saved to album');
+    } on GalException catch (e) {
+      if (e.type == GalExceptionType.accessDenied) {
+        await _showPhotoPermissionDialog();
+        return;
+      }
+
+      ToastUtil.show('Save failed, please try again');
     } catch (e) {
       ToastUtil.show('Save failed, please try again');
+    }
+  }
+
+  Future<bool> _ensurePhotoLibraryAccess() async {
+    final hasAccess = await Gal.hasAccess(toAlbum: true);
+    if (hasAccess) {
+      return true;
+    }
+
+    final granted = await Gal.requestAccess(toAlbum: true);
+    if (!granted) {
+      await _showPhotoPermissionDialog();
+    }
+    return granted;
+  }
+
+  Future<void> _showPhotoPermissionDialog() async {
+    final shouldOpenSettings = await Get.dialog<bool>(
+      AlertDialog(
+        title: const Text('Photo Permission Required'),
+        content: const Text(
+          'Photo library access has been denied. Please enable photo access in Settings to save the QR code.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(result: false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Get.back(result: true),
+            child: const Text('Settings'),
+          ),
+        ],
+      ),
+    );
+
+    if (shouldOpenSettings == true) {
+      await openAppSettings();
     }
   }
 
@@ -88,7 +135,9 @@ class ContactUsPage extends StatelessWidget {
 
                         // 二维码
                         AppImage(
-                          imagePath: AppImages.getAssetsPath('contact_us_qq_code'),
+                          imagePath: AppImages.getAssetsPath(
+                            'contact_us_qq_code',
+                          ),
                           width: 180.w,
                           height: 180.w,
                           radius: 8.r,

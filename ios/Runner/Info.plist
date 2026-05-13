@@ -69,10 +69,10 @@
 		<key>UIStatusBarHidden</key>
 		<false/>
 		<key>NSCameraUsageDescription</key>
-		<string>This app needs camera access to take photos.</string>
+		<string>This app uses the camera so you can take photos and attach them to diary entries.</string>
 		<key>NSPhotoLibraryUsageDescription</key>
-		<string>This app needs photo library access to select photos.</string>
+		<string>This app uses photo library access so you can choose photos from your library and attach them to diary entries.</string>
 		<key>NSPhotoLibraryAddUsageDescription</key>
-		<string>This app needs photo library access to save photos.</string>
+		<string>This app uses add-only photo access so you can save the customer service QR code from Contact Us to your photo library.</string>
 	</dict>
 </plist>
