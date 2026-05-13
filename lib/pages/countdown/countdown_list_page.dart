@@ -36,9 +36,12 @@ class _CountdownListPageState extends State<CountdownListPage> {
           }
           return ListView.separated(
             padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 24.h),
-            itemCount: events.length,
+            itemCount: events.length + 1,
             separatorBuilder: (_, _) => SizedBox(height: 12.h),
             itemBuilder: (context, index) {
+              if (index == events.length) {
+                return _buildCreateItem();
+              }
               return _buildEventCard(events[index]);
             },
           );
@@ -47,7 +50,7 @@ class _CountdownListPageState extends State<CountdownListPage> {
       floatingActionButton: GestureDetector(
         onTap: () => Get.to(() => const CountdownEditorPage()),
         child: AppImage(
-          imagePath: AppImages.getAssetsPath('add_bot', extension: 'png'),
+          imagePath: AppImages.getAssetsPath('add_bot1', extension: 'png'),
           width: 56.w,
           height: 56.w,
         ),
@@ -56,20 +59,24 @@ class _CountdownListPageState extends State<CountdownListPage> {
   }
 
   Widget _buildEmpty() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.event_available_outlined,
-            size: 64.sp,
-            color: AppColors.textHint,
-          ),
-          SizedBox(height: 16.h),
-          AppText('No countdowns yet', fontSize: 16.sp, color: AppColors.textHint),
-          SizedBox(height: 8.h),
-          AppText('Tap + to add one', fontSize: 14.sp, color: AppColors.textHint),
-        ],
+    return GestureDetector(
+      onTap: () => Get.to(() => const CountdownEditorPage()),
+      behavior: HitTestBehavior.opaque,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.event_available_outlined,
+              size: 64.sp,
+              color: AppColors.textHint,
+            ),
+            SizedBox(height: 16.h),
+            AppText('No countdowns yet', fontSize: 16.sp, color: AppColors.textHint),
+            SizedBox(height: 8.h),
+            AppText('Tap + to add one', fontSize: 14.sp, color: AppColors.textHint),
+          ],
+        ),
       ),
     );
   }
@@ -126,6 +133,35 @@ class _CountdownListPageState extends State<CountdownListPage> {
                 color: dayColor,
               ),
             ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCreateItem() {
+    return GestureDetector(
+      onTap: () => Get.to(() => const CountdownEditorPage()),
+      child: Container(
+        height: 48.h,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [AppColors.primary, AppColors.f3AEFFF],
+          ),
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.add, size: 20.w, color: AppColors.textWhite),
+            SizedBox(width: 6.w),
+            AppText(
+              'New Event',
+              fontSize: 16.sp,
+              fontWeight: AppFontWeights.medium,
+              color: AppColors.textWhite,
+            ),
           ],
         ),
       ),

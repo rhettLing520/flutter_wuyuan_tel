@@ -38,39 +38,46 @@ class _MessageTabState extends State<MessageTab> {
           final entries = _diaryService.getEntries();
 
           if (entries.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.menu_book_outlined,
-                    size: 64.sp,
-                    color: AppColors.textHint,
-                  ),
-                  SizedBox(height: 16.h),
-                  AppText(
-                    'No diary entries yet',
-                    fontSize: 16.sp,
-                    fontWeight: AppFontWeights.medium,
-                    color: AppColors.textSecondary,
-                  ),
-                  SizedBox(height: 8.h),
-                  AppText(
-                    'Tap + to write your first diary',
-                    fontSize: 14.sp,
-                    color: AppColors.textHint,
-                  ),
-                ],
+            return GestureDetector(
+              onTap: () => _openEditor(),
+              behavior: HitTestBehavior.opaque,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.menu_book_outlined,
+                      size: 64.sp,
+                      color: AppColors.textHint,
+                    ),
+                    SizedBox(height: 16.h),
+                    AppText(
+                      'No diary entries yet',
+                      fontSize: 16.sp,
+                      fontWeight: AppFontWeights.medium,
+                      color: AppColors.textSecondary,
+                    ),
+                    SizedBox(height: 8.h),
+                    AppText(
+                      'Tap + to write your first diary',
+                      fontSize: 14.sp,
+                      color: AppColors.textHint,
+                    ),
+                  ],
+                ),
               ),
             );
           }
 
           return ListView.separated(
             padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 24.h),
-            itemCount: entries.length,
+            itemCount: entries.length + 1,
             separatorBuilder: (context, index) =>
                 SizedBox(height: 10.h),
             itemBuilder: (context, index) {
+              if (index == entries.length) {
+                return _buildCreateItem();
+              }
               final entry = entries[index];
               return _DiaryEntryTile(
                 entry: entry,
@@ -86,6 +93,35 @@ class _MessageTabState extends State<MessageTab> {
           imagePath: AppImages.getAssetsPath('add_bot', extension: 'png'),
           width: 56.w,
           height: 56.w,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCreateItem() {
+    return GestureDetector(
+      onTap: () => _openEditor(),
+      child: Container(
+        height: 48.h,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [AppColors.primary, AppColors.f3AEFFF],
+          ),
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.add, size: 20.w, color: AppColors.textWhite),
+            SizedBox(width: 6.w),
+            AppText(
+              'New Diary',
+              fontSize: 16.sp,
+              fontWeight: AppFontWeights.medium,
+              color: AppColors.textWhite,
+            ),
+          ],
         ),
       ),
     );
